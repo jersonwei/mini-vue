@@ -12,7 +12,8 @@ class ReactiveEffect{
     run(){
     // 33-将实例对象指向全局变量
     activeEffect = this;
-        this._fn()
+    // 42- 接下方的函数调用,我们需要将fn的返回值返回出去,将下面的方法调用return
+        return this._fn()
     }
 }
 // 26- 根据Map容器来进行键值对存储 这样可以替换下面的dep定义
@@ -68,7 +69,7 @@ export function effect(fn){
     _effect.run();
 
 
+    // 41- 结回effect中的调用 在这里就相当于是调用了实例的方法.我们可以返回该函数  在通过一些处理
 
-
-
+    return _effect.run.bind(_effect)
 }

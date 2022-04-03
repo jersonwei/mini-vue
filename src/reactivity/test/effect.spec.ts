@@ -22,6 +22,22 @@ describe('effect',()=>{
         user.age++;
         // 5-希望响应对象的值也发生同样的变化
        expect(nextAge).toBe(12);
+       // 40-effect功能的完善  在我们调用effec时其实有后续的一套功能执行  effect(fn)=> function(runner)=> return 返回值 
+
+       // 43-逻辑完成执行测试
+       it('should return runner when call runner',()=>{
+       let foo = 10
+       const runner = effect(()=>{
+           foo++
+           return foo
+       }
+       )
+       expect(foo).toBe(11)
+       const r = runner();
+       expect(foo).toBe(12)
+       expect(r).toBe('foo')
+    }
+    )
 })
 }
 )
