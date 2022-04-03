@@ -28,8 +28,8 @@ describe('effect',()=>{
        it('should return runner when call runner',()=>{
        let foo = 10
        const runner = effect(()=>{
-           foo++
-           return foo
+           foo++;
+           return foo;
        }
        )
        expect(foo).toBe(11)
@@ -38,6 +38,38 @@ describe('effect',()=>{
        expect(r).toBe('foo')
     }
     )
+
+    // 44 实现effect的scheduler功能
+    it('scheduler',()=>{
+        //  通过effect的第二个参数给定的一个schecdule的 fn
+        //  effect 第一次执行的时候还会执行fn
+        //  当响应式对象set update 不会执行fn 而是执行scheduler
+        //  如果说当执行runner的时候 会再次执行fn
+        let dummy;
+        let run:any;
+        const scheduler = jest.fn(()=>{
+            run = runner
+        }
+        );
+        const obj = reactive({foo:1});
+        const runner = effect(()=>{
+            dummy = obj.foo
+        },{ scheduler }
+        );
+        expect(scheduler).not.toHaveBeenCalled();
+        expect(dummy.toBe(1));
+        // should be called on first trigger
+        obj.foo++;
+        expect(scheduler).toHaveBeenCalledTimes(1);
+        // should not run yet 
+        expect(dummy).toBe(1);
+        // manually run
+        run();
+        //  should have run
+        expect(dummy).toBe(2)
+
+        // 48- 基本逻辑完成 执行单元测试 结果通过
+    })
 })
 }
 )

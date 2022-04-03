@@ -4,7 +4,7 @@
 class ReactiveEffect{
     private  _fn:any;
     // 21-我们可以通过内部的构造函数来替换一个等价的fn 下面调用得也就换成了this._fn
-    constructor(fn){
+    constructor(fn,public scheduler?){  // 加上public使其能够被外界获取到  
         this._fn = fn
     }
 
@@ -53,17 +53,23 @@ export function trigger(target,key){
     let dep = depsMap.get(key)
     // 38-循环dep调用即可
     for (const effect of dep) {
+    // 46-响应数据时也就是执行我们的run  但是当我们第二次执行时需要调用scheduler 而不是调用run函数中的fn函数
+    if(effect.scheduler){
+        effect.scheduler()
+    }else{
         effect.run()
+    }
     }
     // 39-运行yarn test执行所有的单元测试通过
 };
 // 32- 全局fn状态变量定义,当fn被执行时将其指向我们的实例对象
 let activeEffect;
-export function effect(fn){
+// 45- 接受第二个参数
+export function effect(fn,options:any = {}){
     // 因为是触发响应,所以接受的是一个函数fn 并且需要先调用一次
-
+    // const scheduler = options.scheduler
     // 18 创建上面类的一个实例,并将fn传入进去
-    const _effect = new ReactiveEffect(fn)
+    const _effect = new ReactiveEffect(fn,options.scheduler)  // 47 将 scheduler传入到构造函数中去,并接受他
 
     // 19-我们希望可以通过该实例调用上面类的方法时来间接调用fn函数
     _effect.run();
