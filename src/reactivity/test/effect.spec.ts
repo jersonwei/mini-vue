@@ -1,5 +1,5 @@
 import {reactive} from '../reactive'
-import {effect} from '../effect'
+import {effect,stop} from '../effect'
 // 22-此时去掉我们的user.age++步骤,执行我们的测试命令 会发现测试通过
 // 此时我们剩下的问题就是依赖收集和触发依赖
 describe('effect',()=>{
@@ -69,7 +69,43 @@ describe('effect',()=>{
         expect(dummy).toBe(2)
 
         // 48- 基本逻辑完成 执行单元测试 结果通过
+    });
+    // stop功能实现 
+    it('stop',()=>{
+        let dummy;
+        const obj = reactive({prop:1});
+        const runner = effect(()=>{
+            dummy = obj.prop
+        }
+        );
+        obj.prop = 2;
+        expect(dummy).toBe(2);
+        stop(runner);  // 当stop调用后响应值不再更新  但是当runner函数再次调用后又会继续更新
+        obj.prop = 3;
+        expect(dummy).toBe(2);
+
+        // stopped effect should still be manually callable
+        runner()
+        expect(dummy).toBe(3);
     })
+
+    // 56 onStop功能实现 所谓的onStop 就是当stop被执行时的一个确认stop被执行的函数,允许用户在这个函数中做一些事情 单侧如下
+    it('onStop',()=>{
+        const obj = reactive({
+            foo:1
+        });
+        const onStop = jest.fn();
+        let dummy;
+        const runner = effect(()=>{
+            dummy = obj.foo;
+        },{
+            onStop,
+        }
+        );
+        stop(runner)
+        expect(onStop).toBeCalledTimes(1);
+    }
+    )
 })
 }
 )
