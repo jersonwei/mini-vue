@@ -31,3 +31,21 @@ export function reactive(raw){
     })
 
 }
+
+// 61 定义导出readonly
+export function readonly(raw){
+    // 同样也是返回一个Proxy  因为不需要set所以不需要进行依赖收集和触发依赖
+    return new Proxy(raw,{
+        get(target,key){
+            const res = Reflect.get(target,key)
+
+            // track(target,key)
+            return res ;
+        },
+        set(target,key,value){
+            // const res = Reflect.set(target,key,value)  不需要进行映射
+            // trigger(target,key)
+            return true;
+        }
+    })
+}
