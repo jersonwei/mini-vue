@@ -57,8 +57,7 @@ export function track(target,key){
         depsMap = new Map()
         targetMap.set(target,depsMap);
     }
-
-
+  
     // 28-取到我们的dep
     let dep = depsMap.get(key)
     // 30-与上面同理解决初始化的问题
