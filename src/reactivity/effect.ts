@@ -57,14 +57,12 @@ export function track(target,key){
         depsMap = new Map()
         targetMap.set(target,depsMap);
     }
-  
     // 28-取到我们的dep
     let dep = depsMap.get(key)
     // 30-与上面同理解决初始化的问题
     if(!dep){
         dep = new Set()
     }
-
     // 60 解决activeEffect可能为undefinded的报错  执行yarn test发现测试通过
     if(!activeEffect) return;
     // 34-这时候当我们获取到依赖时就可以建立起联系  下面我们就可以去实现trigger了
