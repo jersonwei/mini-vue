@@ -8,6 +8,7 @@ describe('shallowReadonly',()=>{
         expect(isReadonly(props)).toBe(true)
         expect(isReadonly(props.n)).toBe(false)
     });
+    // 95-基本逻辑代码完成后 引入readonly的set操作警告的断言  执行单侧成功  接下来我们实现isproxy的功能
     it('should call console.warn then when set',()=>{
         // console.warn()
         // mock    通过mock我们可以去构建一个假的警告方法 最后来进行验证

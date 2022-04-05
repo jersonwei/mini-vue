@@ -1,5 +1,5 @@
 // 60 readonly功能实现 该方法是由reactive导出
-import {readonly,isReadonly} from '../reactive'
+import {readonly,isReadonly,isProxy} from '../reactive'
 describe('readonly',()=>{
     it('happy path',()=>{
         // not set
@@ -14,6 +14,8 @@ describe('readonly',()=>{
         expect(isReadonly(wrapped.bar)).toBe(true)
         expect(isReadonly(original.bar)).toBe(false)
         expect(wrapped.foo).toBe(1);
+        // 检测是否为proxy
+        expect(isProxy(wrapped)).toBe(true)
     }
     );
     // 64 readonly的第二个功能点 调用set发出警告

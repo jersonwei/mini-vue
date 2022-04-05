@@ -1,4 +1,4 @@
-import {isReactive,reactive} from '../reactive'
+import {isReactive,reactive,isProxy} from '../reactive'
 // 由effec拆分出来的测试块
 describe('reactive',()=>{
     
@@ -16,6 +16,8 @@ describe('reactive',()=>{
         expect(isReactive(observed)).toBe(true)
         // 69 接下来验证我们的对象如果不是一个PROXY 会不会出错
         expect(isReactive(original)).toBe(false)
+        // 96-加入判断是否为Proxy的断言
+        expect(isProxy(observed)).toBe(true)
     }
     )
 

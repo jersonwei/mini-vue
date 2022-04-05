@@ -101,7 +101,11 @@ export function isReadonly(value){
     // 73同样在ReactiveFlags中进行挂载 然后在我们的creatGetter中进行判断
     return !!value[ReactiveFlags.IS_READONLY]
 }
-
+// 97-定义并导出是否为Proxy函数逻辑
+export function isProxy(value){
+    // 逻辑代码只需要判断是否为响应式对象即可
+    return  isReactive(value) || isReadonly(value)
+}
 // 63 继续抽离return proxy
 function createActivepObject(raw:any,baseHandlers){
     return new Proxy(raw,baseHandlers)
