@@ -10,7 +10,7 @@ describe('readonly',()=>{
 
         // 71 实现我们的isReadonly功能 
         expect(isReadonly(wrapped)).toBe(true)
-        // 73 测试如果不是isReadonly类型的结果  执行我们所有的单侧,测试通过 功能实现
+        // 74 测试如果不是isReadonly类型的结果  执行我们所有的单侧,测试通过 功能实现
         expect(isReadonly(original)).toBe(false)  
     }
     );

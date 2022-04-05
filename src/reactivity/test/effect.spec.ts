@@ -81,7 +81,15 @@ describe('effect',()=>{
         obj.prop = 2;
         expect(dummy).toBe(2);
         stop(runner);  // 当stop调用后响应值不再更新  但是当runner函数再次调用后又会继续更新
-        obj.prop = 3;
+
+        // 75  stop功能的优化  obj.prop = 3 || obj.prop++  这两种表达式的测试结果不同，因为我们的obj.prop只涉及到我们的set
+        // 而我们的 obj.prop++可以拆分为 obj.prop = obj.prop + 1 这个过程既包括了我们的get 也包括了我们的set
+        // 而在触发我们的get操作时他又会去重新收集我们的依赖，这个过程抵消了我们stop中清除依赖的操作 所以导致我们的结果不同
+        // 我们需要回到我们的trak函数中在收集依赖前对他进行一定的处理
+
+        // obj.prop = 3;
+        obj.prop++
+
         expect(dummy).toBe(2);
 
         // stopped effect should still be manually callable
