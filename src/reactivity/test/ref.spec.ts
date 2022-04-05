@@ -1,6 +1,6 @@
 import { effect } from "../effect";
 import { reactive } from "../reactive";
-import {isRef, ref, unRef} from '../ref'
+import {isRef, proxyRefs, ref, unRef} from '../ref'
 // 98 ref 单侧
 describe('ref',()=>{
     // 101-基本的逻辑单侧
@@ -63,6 +63,29 @@ describe('ref',()=>{
         const a =ref(1);
         expect(unRef(a)).toBe(1);
         expect(unRef(1)).toBe(1);
+    })
+
+    // 122 proxyRef功能  所谓的proxyRef是指我们的ref类型的值被proxyRef包装后
+    // 当我们再次访问ref中的值时不需要进行.value的获取 更加的方便 这种应用场景一般是在我们的模板中出现
+    it('proxyRefs',()=>{
+        const user = {
+            age:ref(10),
+            name:'xiaohong'
+        }
+        // proxyRef的get
+        const proxyUser = proxyRefs(user)
+        expect(user.age.value).toBe(10)
+        expect(proxyUser.age).toBe(10)
+        expect(proxyUser.name).toBe('xiaohong')
+
+        // proxyRef的set
+        proxyUser.age = 20;
+        expect(proxyUser.age).toBe(20)
+        expect(user.age.value).toBe(20)
+
+        proxyUser.age = ref(10);
+        expect(proxyUser.age).toBe(10)
+        expect(user.age.value).toBe(10)
     })
 }
 )

@@ -78,3 +78,25 @@ export function unRef(ref){
     // 看看是不是ref => ref.value
     return isRef(ref)?ref.value:ref;
 }
+
+// 123 定义导出proxyRefs
+export function proxyRefs(objectWithRefs){
+    // 设法让我们得知调用了ref的get和set方法
+    return new Proxy(objectWithRefs,{
+        get(target,key){
+        // get => age(ref)是ref对象就给他返回value值
+        // not ref 返回他本身  这个逻辑实际上就是我们的unRef
+        // 124 get逻辑实现完成
+        return unRef(Reflect.get(target,key))
+        },
+        set(target,key,value){
+            // 125 判断我们的对象是一个ref类型 并且它的值不是一个ref类型 这种情况才去修改它原先的值
+            if(isRef(target[key]) && !isRef(value)){
+               return target[key].value = value
+            }else{
+                // 当给定对象的值是一个ref对象时 我们直接让他替换原先的值
+                return Reflect.set(target,key,value)
+            }
+        }
+    })
+}
