@@ -7,7 +7,9 @@ describe('readonly',()=>{
         const wrapped = readonly(original)
         expect(wrapped).not.toBe(original)
         expect(wrapped.foo).toBe(1);
-
+        // 89 嵌套对象的readonly断言 回到我们的basehandler进行功能实现
+        expect(isReadonly(wrapped.bar)).toBe(true)
+        expect(isReadonly(original.bar)).toBe(false)
         // 71 实现我们的isReadonly功能 
         expect(isReadonly(wrapped)).toBe(true)
         // 74 测试如果不是isReadonly类型的结果  执行我们所有的单侧,测试通过 功能实现
