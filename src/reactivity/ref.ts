@@ -15,6 +15,7 @@ class Refimpl {
     public dep;
     private _value: any;
     private _rawValue: any;
+    public __v_isRef = true;
     constructor(value) {
         // this._value = value
         // 113 判断我们的value是否是一个对象  如果是对象需要用我们的reactive进行处理
@@ -61,8 +62,19 @@ class Refimpl {
       return  isObject(value)?reactive(value):value
     }
 
-
 // 99 定义并导出ref函数
 export function ref(value){
     return new Refimpl(value)
+}
+
+// 118定义并导出isRef
+export function isRef(ref){
+    // 我们可以在类中创建一个标识
+    // 119 双重取反排除undefined的报错 逻辑处理完成
+    return !!ref.__v_isRef
+}
+// 121 定义导出我们的unRef
+export function unRef(ref){
+    // 看看是不是ref => ref.value
+    return isRef(ref)?ref.value:ref;
 }
