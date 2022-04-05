@@ -65,8 +65,8 @@ function cleanupEffect(effect){
     const targetMap = new Map() 
 
 // 82  activeEffect 和 shouldTrack都要用来判断是否在track转态 以此来命名包装函数
-function isTracking(){
-    return  shouldTrack && activeEffect!== undefined
+export function isTracking(){
+    return  shouldTrack && activeEffect !== undefined
 }
 
 // 24- 定义并导出收集依赖函数
@@ -103,33 +103,56 @@ export function track(target,key){
     // if(!shouldTrack) return    80-这段代码可以置顶,避免多余的dep操作,因为这个过程不需要进行依赖收集
 
     // 83  这里面也可以进行一个优化,当我们的dep池中已经有activeEffect这个依赖 可以跳过后续的过程
-    if(dep.has(activeEffect)) return
-    dep.add(activeEffect)  
+
+    // if(dep.has(activeEffect)) return
+    // dep.add(activeEffect)  
     // 52- 将activeEffect与我们的dep进行反向联系 我们可以在activeEffect中定义一个deps去进行反向收集
-    activeEffect.deps.push(dep)
+    // activeEffect.deps.push(dep)
+    trackEffects(dep)
     // 31- 这时候我们可以将fn放到dep当中  我们可以定义一个全局状态变量,来判断fn是否成功加入
     // 所谓的收集依赖 就是当我们引入了对象中的每一个key时就需要一个容器将相应的依赖放入其中
     // 25-因为我们的依赖是不可重复的,我们可以利用Set来处理
     // const dep = new Set()
     // 我们的target,key,dep的关系是一一对应的,所谓我们可以一一对应的存储  target=>key=>dep
 };
+// 101 对于ref用到的track中的逻辑代码进行抽离封装导出
+export function trackEffects(dep){
+    if(dep.has(activeEffect)) return
+    dep.add(activeEffect)  
+    activeEffect.deps.push(dep)
+
+}
+
 // 36- 定义并导出我们的trigger
 export function trigger(target,key){
     // 37-基于target,key 找到所有的dep并调用其中的fn
     
     let depsMap = targetMap.get(target)
     let dep = depsMap.get(key)
+
+    triggerEffects(dep)
     // 38-循环dep调用即可
-    for (const effect of dep) {
+    // for (const effect of dep) {
     // 46-响应数据时也就是执行我们的run  但是当我们第二次执行时需要调用scheduler 而不是调用run函数中的fn函数
-    if(effect.scheduler){
-        effect.scheduler()
-    }else{
-        effect.run()
-    }
-    }
+    // if(effect.scheduler){
+        // effect.scheduler()
+    // }else{
+        // effect.run()
+    // }
+    // }
     // 39-运行yarn test执行所有的单元测试通过
 };
+// 104 抽离ref中用到的代码进行封装导出
+export function triggerEffects(dep){
+    for (const effect of dep) {
+        if(effect.scheduler){
+            effect.scheduler()
+        }else{
+            effect.run()
+        }   
+    }
+}
+
 // 16- 与reactive相同 导出effect
 
 // 45- 接受第二个参数
