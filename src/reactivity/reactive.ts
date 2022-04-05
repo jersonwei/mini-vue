@@ -1,5 +1,5 @@
 // import { track,trigger } from "./effect";
-import { mutibleHandlers,readonlyHandlers } from "./baseHandlers";
+import { mutibleHandlers,readonlyHandlers,shallowReadonlyHandlers } from "./baseHandlers";
 // 9-定义并导出实现的函数
 // 62代码重构优化
 // function createGetter(isReadonly = false){
@@ -78,6 +78,12 @@ export function readonly(raw){
             // return true;
         
     // )
+}
+
+// 92 定义导出shallowReadonly
+export function shallowReadonly(raw){
+    // 回到我们的baseHandlers去创建
+    return createActivepObject(raw,shallowReadonlyHandlers)
 }
 
 // 67 定义isReactive的出口
