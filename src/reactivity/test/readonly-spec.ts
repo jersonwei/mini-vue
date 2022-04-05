@@ -1,5 +1,5 @@
 // 60 readonly功能实现 该方法是由reactive导出
-import {readonly} from '../reactive'
+import {readonly,isReadonly} from '../reactive'
 describe('readonly',()=>{
     it('happy path',()=>{
         // not set
@@ -7,6 +7,11 @@ describe('readonly',()=>{
         const wrapped = readonly(original)
         expect(wrapped).not.toBe(original)
         expect(wrapped.foo).toBe(1);
+
+        // 71 实现我们的isReadonly功能 
+        expect(isReadonly(wrapped)).toBe(true)
+        // 73 测试如果不是isReadonly类型的结果  执行我们所有的单侧,测试通过 功能实现
+        expect(isReadonly(original)).toBe(false)  
     }
     );
     // 64 readonly的第二个功能点 调用set发出警告

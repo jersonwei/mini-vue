@@ -103,7 +103,7 @@ export function effect(fn,options:any = {}){
     //  57 将onStop引入到类中
     // _effect.onStop = options.onStop  
     // 59 代码优化  使用extend  这些公共的工具函数我们可以将其抽离到指定文件夹内 src/shared
-    Object.assign(_effect,options)  
+    // Object.assign(_effect,options)  
     extend(_effect,options)
     // 19-我们希望可以通过该实例调用上面类的方法时来间接调用fn函数
     _effect.run();
