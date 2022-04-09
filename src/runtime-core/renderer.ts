@@ -72,7 +72,8 @@ function mountComponent(vnode:any,container){
 
 
 function setupRenderEffect(instance:any,container){
-    const subTree = instance.render();
+    const {proxy} = instance
+    const subTree = instance.render.call(proxy);
 
     // vndoeTree => patch
     // vnode => element =>mountElement
