@@ -9,6 +9,8 @@ export const App = {
             id:"root",
             class:["red","hard"]
         },
+        // setupState
+        // $el
         // [h("p",{class:"red"},"hi"),
             // h("p",{class:'blue'},"mini-vue")]
         'hi ' + this.msg)
