@@ -22,6 +22,11 @@ export function setupComponent(instance){
             if(key in setupState){
                 return setupState[key]
             }
+
+            // key=>el
+            if(key === '$el'){
+                return instance.vnode.el
+            }
         }
     })
     setupStatefulComponent(instance)
