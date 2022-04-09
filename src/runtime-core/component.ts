@@ -4,7 +4,8 @@
 export function creatComponentInstance(vnode){
     const component = {
         vnode,
-        type:vnode.type
+        type:vnode.type,
+        setupState:{}
     }
     return component
 }
@@ -13,7 +14,15 @@ export function setupComponent(instance){
     // TODO 
    // initProps()
    // initSlots()
-
+    instance.proxy = new Proxy({},{
+        get(target,key){
+            // 先从setupstate中获取值
+            const {setupState} = instance
+            if(key in setupState){
+                return setupState[key]
+            }
+        }
+    })
     setupStatefulComponent(instance)
 }
 
