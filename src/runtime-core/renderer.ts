@@ -13,10 +13,18 @@ function patch(vnode,container){
     // 是element类型就处理element
     // processElement()
     // 是component就处理component
+    console.log(vnode.type,vnode)
+    if(typeof vnode.type === 'string'){
+        // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
+        processElement(vnode,container)
+    }
     processComponent(vnode,container)
 
 }
-
+// 作为元素的处理方式
+function processElement(vnode:any,container:any){
+    // element 主要有初始化init和更新update
+}
 
 function processComponent(vnode:any,container:any){  
 
