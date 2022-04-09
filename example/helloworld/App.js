@@ -8,10 +8,10 @@ export const App = {
         return h('div',{ 
             id:"root",
             class:["red","hard"]
-        },[
-            h("p",{class:"red"},"hi"),
-            h("p",{class:'blue'},"mini-vue")
-        ],'hi mini-vue')
+        },
+        // [h("p",{class:"red"},"hi"),
+            // h("p",{class:'blue'},"mini-vue")]
+        'hi ' + this.msg)
     },
     setup(){
         // compsition api
