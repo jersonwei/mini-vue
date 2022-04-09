@@ -39,7 +39,7 @@ function mountElement(vnode:any,container:any){
     if(typeof children === 'string'){
         el.textContent = children;
     }else if(Array.isArray(children)){
-        // 逻辑抽离
+        // 逻辑抽离 函数封装
         mountChildren(vnode,el)
         // children.forEach(v=>{
             // patch(v,el)
