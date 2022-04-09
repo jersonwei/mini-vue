@@ -18,7 +18,7 @@ export function setupComponent(instance){
 }
 
 function setupStatefulComponent (instance:any){
-    const component = instance.type
+    const component = instance.vnode.type
 
 
     const {setup} = component
@@ -50,9 +50,9 @@ function finishComponentSetup(instance:any){
     // Implement
     const Component = instance.type
 
-    if(Component.render){
+    // if(Component.render){  假设render一定有值
         instance.render = Component.render
-    }
+    // }
 }
 
 
