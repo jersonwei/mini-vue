@@ -63,16 +63,16 @@ function processComponent(vnode:any,container:any){
     mountComponent(vnode,container)
 }
 
-function mountComponent(vnode:any,container){
+function mountComponent(initialvnode:any,container){
     // throw new Error('Function not implementd')
-   const instance =  creatComponentInstance(vnode)
+   const instance =  creatComponentInstance(initialvnode)
 
    setupComponent(instance)
-    setupRenderEffect(instance,vnode,container)
+    setupRenderEffect(instance,initialvnode,container)
 }
 
 
-function setupRenderEffect(instance:any,vnode,container){
+function setupRenderEffect(instance:any,initialvnode,container){
     const {proxy} = instance
     const subTree = instance.render.call(proxy);
 
@@ -82,7 +82,7 @@ function setupRenderEffect(instance:any,vnode,container){
 
     // 我们这里的subTree就是我们的根节点,我们所要赋值的el可以在subTree上找到
     // 传入我们的虚拟节点
-    vnode.el = subTree.el
+    initialvnode.el = subTree.el
 }
 
 
