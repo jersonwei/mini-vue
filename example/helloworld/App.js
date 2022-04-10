@@ -10,6 +10,9 @@ export const App = {
             // emit类似于我们的element设置的on事件
             onAdd(a,b){
                 console.log("onAdd",a,b)
+            },
+            onAddFoo(){
+                console.log('onAddFoo')
             }
         })])
     },

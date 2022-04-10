@@ -3,7 +3,8 @@ export const Foo ={
     setup(props,{emit}) {
         const emitAdd = ()=>{
             console.log("emit Add")
-            emit("add",1,2)
+            emit("add-foo",1,2)
+            emit('add-foo')
         }
         return {
             emitAdd
