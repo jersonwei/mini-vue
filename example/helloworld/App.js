@@ -8,8 +8,8 @@ export const App = {
         },
         [h("div",{},"App"),h(Foo,{
             // emit类似于我们的element设置的on事件
-            onAdd(){
-                console.log("onAdd")
+            onAdd(a,b){
+                console.log("onAdd",a,b)
             }
         })])
     },
