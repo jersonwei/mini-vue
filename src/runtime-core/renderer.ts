@@ -8,6 +8,27 @@ export  function render(vnode,container){
 }
 
 function patch(vnode,container){
+    const {type,shapeFlag} = vnode
+    // 增加一种类型只渲染我们的children
+    // Fragment => 只渲染我们的children
+    switch (type) {
+        case 'Fragment':
+            processFragment(vnode,container)   
+            break;
+    
+        default:     // vnode => flag 我们当前虚拟节点的类型都称之为我们的flag
+        // 比如我们的字符串就作为元素来对待
+        // if(typeof vnode.type === 'string'){
+        if(shapeFlag & ShapeFlags.ELEMENT ){ 
+            // 上面的判断可以使用位运算符来进行替换
+            // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
+            processElement(vnode,container)
+            // isObject(vnode.type) 同样进行替换
+        }else if(shapeFlag & ShapeFlags.STATEFUL_COMPONENT){
+            processComponent(vnode,container)
+        }
+            break;
+    }
 
     // 去处理组件
 
@@ -17,19 +38,11 @@ function patch(vnode,container){
     // 是component就处理component
     console.log(vnode.type,vnode)
     // shapeflags
-    // vnode => flag 我们当前虚拟节点的类型都称之为我们的flag
-    // 比如我们的字符串就作为元素来对待
-    const {shapeFlag} = vnode
-    // if(typeof vnode.type === 'string'){
-    if(shapeFlag & ShapeFlags.ELEMENT ){ 
-        // 上面的判断可以使用位运算符来进行替换
-        // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
-        processElement(vnode,container)
-        // isObject(vnode.type) 同样进行替换
-    }else if(shapeFlag & ShapeFlags.STATEFUL_COMPONENT){
-        processComponent(vnode,container)
-    }
-
+}
+function processFragment(vnode,container){    
+    // implement    
+    // mountChildren的功能实际上就是遍历了我们的children 并再次进行patch
+    mountChildren(vnode,container)
 }
 // 作为元素的处理方式
 function processElement(vnode:any,container:any){
