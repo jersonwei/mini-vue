@@ -7,10 +7,9 @@ export const App = {
         // 接受两个数据形式 数组和单个
         // 把数组的形式换成对象的key模式
         // const foo = h(Foo,{},[h("p",{},"123"),h('p',{},'234')])
-        // 具名插槽的实现 通过指定名字和指定的渲染位置
         const foo = h(Foo,{},{
-            header:h("p",{},"header"),
-            footer:h('p',{},'footer')
+            header:({age})=> h("p",{},"header" + age),
+            footer: () => h('p',{},'footer')
         })
         return h('div',{},[app,foo])},
     setup(){

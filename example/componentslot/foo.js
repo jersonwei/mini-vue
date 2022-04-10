@@ -12,6 +12,9 @@ export const Foo ={
 
         // 将下面的逻辑封装成函数  帮助我们渲染我们的slots
         // 添加渲染指定位置的逻辑
-        return h('div',{},[renderSlots(this.$slots,"header"),foo,renderSlots(this.$slots,"footer")])
+        // 具名插槽的实现 通过指定名字和指定的渲染位置
+        // 实现作用域插槽  把我们foo组件内部的变量传出去
+        const age = 10
+        return h('div',{},[renderSlots(this.$slots,"header",{age}),foo,renderSlots(this.$slots,"footer")])
     }
 }

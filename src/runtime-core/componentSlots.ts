@@ -15,7 +15,7 @@ function normalizeObjectSlots(children:any,slots:any){
     for (const key in children) {
         const value = children[key]
         // slot
-        slots[key] = normalizeSlotValue(value)
+        slots[key] = (props) => normalizeSlotValue(value(props))
     }
 }
 function normalizeSlotValue(value){
