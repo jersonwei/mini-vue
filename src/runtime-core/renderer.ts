@@ -1,4 +1,5 @@
 import { isObject } from "../shared"
+import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
 
 export  function render(vnode,container){
@@ -15,13 +16,17 @@ function patch(vnode,container){
     // processElement()
     // 是component就处理component
     console.log(vnode.type,vnode)
-    // shapefalgs
+    // shapeflags
     // vnode => flag 我们当前虚拟节点的类型都称之为我们的flag
     // 比如我们的字符串就作为元素来对待
-    if(typeof vnode.type === 'string'){
+    const {shapeFlag} = vnode
+    // if(typeof vnode.type === 'string'){
+    if(shapeFlag & ShapeFlags.ELEMENT ){ 
+        // 上面的判断可以使用位运算符来进行替换
         // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
         processElement(vnode,container)
-    }else if(isObject(vnode.type)){
+        // isObject(vnode.type) 同样进行替换
+    }else if(shapeFlag & ShapeFlags.STATEFUL_COMPONENT){
         processComponent(vnode,container)
     }
 
@@ -38,14 +43,16 @@ function mountElement(vnode:any,container:any){
     // 这里的el是属于我们的element类型也就是div的,并不是我们认为的初始化的虚拟节点
     const el = (vnode.el = document.createElement(vnode.type))
     // string array
-    const {children} = vnode
+    const {children,shapeFlag} = vnode
     // 字符串类型的处理方式
     // children
-    if(typeof children === 'string'){
+    if(shapeFlag & ShapeFlags.TEXT_CHILDREN){ 
+    // if(typeof children === 'string'){
         // textchildren
         el.textContent = children;
         // arraychildren
-    }else if(Array.isArray(children)){
+        // Array.isArray(children)
+    }else if(shapeFlag & ShapeFlags.ARRAY_CHILDREN){
         // 逻辑抽离 函数封装
         mountChildren(vnode,el)
         // children.forEach(v=>{
