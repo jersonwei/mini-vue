@@ -4,6 +4,7 @@ export const Foo ={
         // porps.count
         console.log(props)
         // 3 props是readOnly属性
+        props.count++
     },
     render(){
         return h('div',{},"foo" + this.count)

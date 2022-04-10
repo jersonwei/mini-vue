@@ -1,4 +1,5 @@
 // import { track,trigger } from "./effect";
+import { isObject } from "../shared";
 import { mutibleHandlers,readonlyHandlers,shallowReadonlyHandlers } from "./baseHandlers";
 // 9-定义并导出实现的函数
 // 62代码重构优化
@@ -31,7 +32,7 @@ export function reactive(raw){
 
 
     // return new Proxy(raw,mutibleHandlers
-    return createActivepObject(raw,mutibleHandlers)
+    return createReactivepObject(raw,mutibleHandlers)
         // target 指向的就是我们的对象,key指向的就是我们访问的属性 比如之前foo
         // get(target,key){
         //     // 12-使用Reflect将拦截的值映射出去,与PROXY配合使用
@@ -63,7 +64,7 @@ export function reactive(raw){
 // 61 定义导出readonly
 export function readonly(raw){
     // 同样也是返回一个Proxy  因为不需要set所以不需要进行依赖收集和触发依赖
-    return createActivepObject(raw,readonlyHandlers)
+    return createReactivepObject(raw,readonlyHandlers)
     // return new Proxy(raw,readonlyHandlers
         // get(target,key){
         //     const res = Reflect.get(target,key)
@@ -83,7 +84,7 @@ export function readonly(raw){
 // 92 定义导出shallowReadonly
 export function shallowReadonly(raw){
     // 回到我们的baseHandlers去创建
-    return createActivepObject(raw,shallowReadonlyHandlers)
+    return createReactivepObject(raw,shallowReadonlyHandlers)
 }
 
 // 67 定义isReactive的出口
@@ -107,6 +108,10 @@ export function isProxy(value){
     return  isReactive(value) || isReadonly(value)
 }
 // 63 继续抽离return proxy
-function createActivepObject(raw:any,baseHandlers){
-    return new Proxy(raw,baseHandlers)
+function createReactivepObject(target,baseHandlers){
+    if(!isObject(target)){
+        console.warn( `target${target} 必须是一个对象`)
+        return target
+    }
+    return new Proxy(target,baseHandlers)
 }
