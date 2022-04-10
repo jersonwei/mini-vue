@@ -12,10 +12,10 @@ export const App = {
             id:"root",
             class:["red","hard"],
             onClick(){
-                console.log('click')
+                // console.log('click')
             },
             onMousedown(){
-                console.log('123')
+                // console.log('123')
             }
         },
         // setupState

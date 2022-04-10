@@ -2,6 +2,7 @@ import { PublicInstanceProxyHandlers } from "./componentPublicInstance"
 import {initProps} from './componentProps'
 import { shallowReadonly } from "../reactivity/reactive"
 import { emit } from "./componentEmit"
+import { initSlots } from "./componentSlots"
 export function creatComponentInstance(vnode){
     const component = {
         vnode,
@@ -19,7 +20,7 @@ export function creatComponentInstance(vnode){
 export function setupComponent(instance){
     // TODO 
    initProps(instance,instance.vnode.props)
-   // initSlots()
+   initSlots(instance,instance.vnode.children)
     instance.proxy = new Proxy({_:instance},PublicInstanceProxyHandlers)
     setupStatefulComponent(instance)
 }
