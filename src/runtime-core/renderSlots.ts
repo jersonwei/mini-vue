@@ -6,6 +6,5 @@ export function renderSlots(slots,name,props){
         if(typeof slot === 'function'){
             return createVNode('div',{},slot(props))
         }
-        return createVNode('div',{},slot)
     }
 }

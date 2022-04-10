@@ -15,6 +15,14 @@ export function createVNode(type,props?,children?){
     }else if(Array.isArray(children)){
         vnode.shapeFlag |= ShapeFlags.ARRAY_CHILDREN
     }
+
+    // 如何判定给定的参数是一个slot参数 
+    // 必须是一个组件节点 并且它的children必须是一个Object
+    if(vnode.shapeFlag & ShapeFlags.STATEFUL_COMPONENT){
+        if(typeof children === 'object'){
+            vnode.shapeFlag |= ShapeFlags.SLOT_CHILDREN
+        }
+    }
     return vnode
 
 }
