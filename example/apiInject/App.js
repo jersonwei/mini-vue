@@ -1,11 +1,11 @@
 // 组件 provide 和 inject功能
-import {h,provide,inject} from '../../lib/guide-mini-vue.esm'
+import {h,provide,inject} from '../../lib/guide-mini-vue.esm.js'
 
 const Provider = {
     name:"Provider",
     setup(){
         provide("foo","fooVal")
-        provide("foo","barVal")
+        provide("bar","barVal")
     },
     render() {
         return h("div",{},[h("p",{},"Provider"),h(Consumer)]) 
@@ -31,6 +31,6 @@ export default{
     name:'App',
     setup(){},
     render(){
-        return h('div',{},[h("p",{},{apiInject},h(Provider))])
+        return h('div',{},[h("p",{},'apiInject'),h(Provider)])
     }
 }
