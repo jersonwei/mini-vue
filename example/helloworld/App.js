@@ -2,6 +2,7 @@ import {h} from '../../lib/guide-mini-vue.esm.js'
 import { Foo } from './foo.js'
 window.self = null
 export const App = {
+    name:"App",
     // .vue
     // 我们还未实现template的编译功能 我们先去实现我们的render函数
     render(){

@@ -1,3 +1,5 @@
+import { hasOwn } from "../shared"
+
 const publicPropertiesMap = {
     $el:(i)=> i.vnode.el
     
@@ -10,7 +12,7 @@ export const PublicInstanceProxyHandlers = {
         //     return setupState[key]
         // }
         // 将上面的逻辑进行重构 加上我们的props的逻辑
-        const hasOwn = (val,key)=> Object.prototype.hasOwnProperty.call(val,key)
+        // const hasOwn = (val,key)=> Object.prototype.hasOwnProperty.call(val,key)
             if(hasOwn(setupState,key)){
                 return setupState[key]
             }else if(hasOwn(props,key)){
