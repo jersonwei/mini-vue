@@ -15,6 +15,9 @@ function patch(vnode,container){
     // processElement()
     // 是component就处理component
     console.log(vnode.type,vnode)
+    // shapefalgs
+    // vnode => flag 我们当前虚拟节点的类型都称之为我们的flag
+    // 比如我们的字符串就作为元素来对待
     if(typeof vnode.type === 'string'){
         // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
         processElement(vnode,container)
@@ -37,8 +40,11 @@ function mountElement(vnode:any,container:any){
     // string array
     const {children} = vnode
     // 字符串类型的处理方式
+    // children
     if(typeof children === 'string'){
+        // textchildren
         el.textContent = children;
+        // arraychildren
     }else if(Array.isArray(children)){
         // 逻辑抽离 函数封装
         mountChildren(vnode,el)
