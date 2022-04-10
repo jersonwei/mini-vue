@@ -12,6 +12,7 @@ export function creatComponentInstance(vnode){
         el:null,
         props:{},
         slots:{},
+        provides:{},
         emit:()=>{}
     }
     component.emit = emit.bind(null,component) as any
