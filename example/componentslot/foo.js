@@ -5,6 +5,7 @@ export const Foo ={
     },
     render(){
         const foo = h("p",{},"foo")
-        return h('div',{},[foo])
+        // Foo .vnode . children
+        return h('div',{},[foo,this.$slots])
     }
 }

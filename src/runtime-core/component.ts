@@ -9,6 +9,7 @@ export function creatComponentInstance(vnode){
         setupState:{},
         el:null,
         props:{},
+        slots:{},
         emit:()=>{}
     }
     component.emit = emit.bind(null,component) as any
