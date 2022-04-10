@@ -3,18 +3,18 @@ import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
 import { Fragment,Text } from "./vnode"
 
-export  function render(vnode,container){
+export  function render(vnode,container,parentComponent){
     // 构建patch方法 方便后续的递归
-    patch(vnode,container)
+    patch(vnode,container,parentComponent)
 }
 
-function patch(vnode,container){
+function patch(vnode,container,parentComponent){
     const {type,shapeFlag} = vnode
     // 增加一种类型只渲染我们的children
     // Fragment => 只渲染我们的children
     switch (type) {
         case Fragment:
-            processFragment(vnode,container)   
+            processFragment(vnode,container,parentComponent)   
             break;
         case Text:
             processText(vnode,container)   
@@ -25,10 +25,10 @@ function patch(vnode,container){
         if(shapeFlag & ShapeFlags.ELEMENT ){ 
             // 上面的判断可以使用位运算符来进行替换
             // 当虚拟节点的类型是一个字符串时,就作为一个元素节点
-            processElement(vnode,container)
+            processElement(vnode,container,parentComponent)
             // isObject(vnode.type) 同样进行替换
         }else if(shapeFlag & ShapeFlags.STATEFUL_COMPONENT){
-            processComponent(vnode,container)
+            processComponent(vnode,container,parentComponent)
         }
             break;
     }
@@ -47,17 +47,17 @@ function processText(vnode:any,container:any){
     const textNode = (vnode.el = document.createTextNode(children))
     container.append(textNode)
 }
-function processFragment(vnode,container){    
+function processFragment(vnode,container,parentComponent){    
     // implement    
     // mountChildren的功能实际上就是遍历了我们的children 并再次进行patch
-    mountChildren(vnode,container)
+    mountChildren(vnode,container,parentComponent)
 }
 // 作为元素的处理方式
-function processElement(vnode:any,container:any){
+function processElement(vnode:any,container:any,parentComponent){
     // element 主要有初始化init和更新update
-    mountElement(vnode,container)
+    mountElement(vnode,container,parentComponent)
 }
-function mountElement(vnode:any,container:any){
+function mountElement(vnode:any,container:any,parentComponent){
     // 作为元素的处理  基于vnode来创建元素
     // 我们所谓的虚拟节点中的内容主要由 type props children 这里的type一般有string和array
     // 还是按照我们正常创建元素的方式来创建虚拟DOM
@@ -75,7 +75,7 @@ function mountElement(vnode:any,container:any){
         // Array.isArray(children)
     }else if(shapeFlag & ShapeFlags.ARRAY_CHILDREN){
         // 逻辑抽离 函数封装
-        mountChildren(vnode,el)
+        mountChildren(vnode,el,parentComponent)
         // children.forEach(v=>{
             // patch(v,el)
         // })        
@@ -95,18 +95,18 @@ function mountElement(vnode:any,container:any){
     }
     container.append(el)
 }
-function mountChildren(vnode,container){
+function mountChildren(vnode,container,parentComponent){
     vnode.children.forEach(v=>{
-        patch(v,container)
+        patch(v,container,parentComponent)
     })
 }
-function processComponent(vnode:any,container:any){  
-    mountComponent(vnode,container)
+function processComponent(vnode:any,container:any,parentComponent){  
+    mountComponent(vnode,container,parentComponent)
 }
 
-function mountComponent(initialvnode:any,container){
+function mountComponent(initialvnode:any,container,parentComponent){
     // throw new Error('Function not implementd')
-   const instance =  creatComponentInstance(initialvnode)
+   const instance =  creatComponentInstance(initialvnode,parentComponent)
 
    setupComponent(instance)
     setupRenderEffect(instance,initialvnode,container)
@@ -119,7 +119,7 @@ function setupRenderEffect(instance:any,initialvnode,container){
 
     // vndoeTree => patch
     // vnode => element =>mountElement
-    patch(subTree,container)
+    patch(subTree,container,instance)
 
     // 我们这里的subTree就是我们的根节点,我们所要赋值的el可以在subTree上找到
     // 传入我们的虚拟节点
