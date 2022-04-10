@@ -1,6 +1,7 @@
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance"
 import {initProps} from './componentProps'
 import { shallowReadonly } from "../reactivity/reactive"
+import { emit } from "./componentEmit"
 export function creatComponentInstance(vnode){
     const component = {
         vnode,
@@ -10,6 +11,7 @@ export function creatComponentInstance(vnode){
         props:{},
         emit:()=>{}
     }
+    component.emit = emit.bind(null,component) as any
     return component
 }
 
