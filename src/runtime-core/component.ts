@@ -12,7 +12,7 @@ export function creatComponentInstance(vnode){
 
 export function setupComponent(instance){
     // TODO 
-   // initProps()
+//    initProps(instance,instance.vnode.props)
    // initSlots()
     instance.proxy = new Proxy({_:instance},PublicInstanceProxyHandlers)
     setupStatefulComponent(instance)

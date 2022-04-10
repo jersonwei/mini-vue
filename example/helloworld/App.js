@@ -1,4 +1,5 @@
 import {h} from '../../lib/guide-mini-vue.esm.js'
+import { Foo } from './foo.js'
 window.self = null
 export const App = {
     // .vue
@@ -12,12 +13,15 @@ export const App = {
             onClick(){
                 console.log('click')
             },
+            onMousedown(){
+                console.log('123')
+            }
         },
         // setupState
         // $el
         // [h("p",{class:"red"},"hi"),
             // h("p",{class:'blue'},"mini-vue")]
-        'hi ' + this.msg)
+        [h("div",{},"hi, "+ this.msg),h(Foo,{count:1})],'hi ' + this.msg)
     },
     setup(){
         // composition api
