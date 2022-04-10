@@ -3,6 +3,7 @@ import {initProps} from './componentProps'
 import { shallowReadonly } from "../reactivity/reactive"
 import { emit } from "./componentEmit"
 import { initSlots } from "./componentSlots"
+let currentInstance = null
 export function creatComponentInstance(vnode){
     const component = {
         vnode,
@@ -33,11 +34,12 @@ function setupStatefulComponent (instance:any){
 
 
     if(setup){
+        currentInstance = instance
         // 我们的setup可以返回一个对象或者是函数
         // 当我们返回一个函数时 就可以把它认为是我们的render函数
         // 如果返回的是一个对象 会把这个对象注入到我们组件的上下文中
         const setupResult = setup(shallowReadonly(instance.props),{emit:instance.emit})
-
+        currentInstance = null
         handleSetupResult(instance,setupResult)
     }
 }
@@ -63,5 +65,7 @@ function finishComponentSetup(instance:any){
     // }
 }
 
-
+export function getCurrentInstance(){
+    return currentInstance
+}
 

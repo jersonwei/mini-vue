@@ -1,7 +1,7 @@
 import { isObject } from "../shared"
 import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
-import { Fragment } from "./vnode"
+import { Fragment,Text } from "./vnode"
 
 export  function render(vnode,container){
     // 构建patch方法 方便后续的递归
@@ -16,7 +16,9 @@ function patch(vnode,container){
         case Fragment:
             processFragment(vnode,container)   
             break;
-    
+        case Text:
+            processText(vnode,container)   
+        break;
         default:     // vnode => flag 我们当前虚拟节点的类型都称之为我们的flag
         // 比如我们的字符串就作为元素来对待
         // if(typeof vnode.type === 'string'){
@@ -39,6 +41,11 @@ function patch(vnode,container){
     // 是component就处理component
     console.log(vnode.type,vnode)
     // shapeflags
+}
+function processText(vnode:any,container:any){
+    const {children} = vnode
+    const textNode = (vnode.el = document.createTextNode(children))
+    container.append(textNode)
 }
 function processFragment(vnode,container){    
     // implement    
