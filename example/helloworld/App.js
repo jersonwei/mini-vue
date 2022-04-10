@@ -8,7 +8,10 @@ export const App = {
 
         return h('div',{ 
             id:"root",
-            class:["red","hard"]
+            class:["red","hard"],
+            onClick(){
+                console.log('click')
+            },
         },
         // setupState
         // $el
@@ -17,7 +20,7 @@ export const App = {
         'hi ' + this.msg)
     },
     setup(){
-        // compsition api
+        // composition api
         return {
             msg:'mini-vue'
         }

@@ -63,7 +63,13 @@ function mountElement(vnode:any,container:any){
     const {props} = vnode
     for (let key in props) {
         const val = props[key]
-        el.setAttribute(key,val)
+        console.log(key)
+        // 如果我们的key是我们的onclick我们就可以给他添加一个点击事件
+        if(key === 'onClick'){
+            el.addEventListener('click',val)
+        }else{
+            el.setAttribute(key,val)
+        }
     }
     container.append(el)
 }
