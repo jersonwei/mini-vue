@@ -3,9 +3,9 @@ import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
 import { Fragment,Text } from "./vnode"
 
-export  function render(vnode,container,parentComponent){
+export  function render(vnode,container){
     // 构建patch方法 方便后续的递归
-    patch(vnode,container,parentComponent)
+    patch(vnode,container,null)
 }
 
 function patch(vnode,container,parentComponent){
@@ -39,7 +39,7 @@ function patch(vnode,container,parentComponent){
     // 是element类型就处理element
     // processElement()
     // 是component就处理component
-    console.log(vnode.type,vnode)
+    // console.log(vnode.type,vnode)
     // shapeflags
 }
 function processText(vnode:any,container:any){
