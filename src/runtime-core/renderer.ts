@@ -58,6 +58,9 @@ function processElement(vnode:any,container:any,parentComponent){
     mountElement(vnode,container,parentComponent)
 }
 function mountElement(vnode:any,container:any,parentComponent){
+    // canvas
+    // new Element()
+
     // 作为元素的处理  基于vnode来创建元素
     // 我们所谓的虚拟节点中的内容主要由 type props children 这里的type一般有string和array
     // 还是按照我们正常创建元素的方式来创建虚拟DOM
@@ -93,8 +96,12 @@ function mountElement(vnode:any,container:any,parentComponent){
             el.setAttribute(key,val)
         }
     }
+    // canvas
+    // el.x = 10
+    // addChild()
     container.append(el)
 }
+
 function mountChildren(vnode,container,parentComponent){
     vnode.children.forEach(v=>{
         patch(v,container,parentComponent)
