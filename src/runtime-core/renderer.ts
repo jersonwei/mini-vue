@@ -1,12 +1,19 @@
 import { isObject } from "../shared"
 import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
+import { createAppAPI } from "./createApp"
 import { Fragment,Text } from "./vnode"
 
-export  function render(vnode,container){
-    // 构建patch方法 方便后续的递归
-    patch(vnode,container,null)
-}
+export function createRenderer(options){
+
+    const {createElement,
+    patchProp,
+insert} = options
+    
+    function render(vnode,container){
+        // 构建patch方法 方便后续的递归
+        patch(vnode,container,null)
+    }
 
 function patch(vnode,container,parentComponent){
     const {type,shapeFlag} = vnode
@@ -65,7 +72,7 @@ function mountElement(vnode:any,container:any,parentComponent){
     // 我们所谓的虚拟节点中的内容主要由 type props children 这里的type一般有string和array
     // 还是按照我们正常创建元素的方式来创建虚拟DOM
     // 这里的el是属于我们的element类型也就是div的,并不是我们认为的初始化的虚拟节点
-    const el = (vnode.el = document.createElement(vnode.type))
+    const el = (vnode.el = createElement(vnode.type))
     // string array
     const {children,shapeFlag} = vnode
     // 字符串类型的处理方式
@@ -87,19 +94,21 @@ function mountElement(vnode:any,container:any,parentComponent){
     const {props} = vnode
     for (let key in props) {
         const val = props[key]
-        const isOn = key=> /^on[A-Z]/.test(key)
-        console.log(key)
-        // 如果我们的key是我们的onclick我们就可以给他添加一个点击事件
-        if(isOn(key)){
-            el.addEventListener(key.slice(2).toLowerCase(),val)
-        }else{
-            el.setAttribute(key,val)
-        }
+        // const isOn = key=> /^on[A-Z]/.test(key)
+        // console.log(key)
+        // // 如果我们的key是我们的onclick我们就可以给他添加一个点击事件
+        // if(isOn(key)){
+        //     el.addEventListener(key.slice(2).toLowerCase(),val)
+        // }else{
+        //     el.setAttribute(key,val)
+        // }
+        patchProp(el,key,val)
     }
     // canvas
     // el.x = 10
     // addChild()
-    container.append(el)
+    // container.append(el)
+    insert(el,container)
 }
 
 function mountChildren(vnode,container,parentComponent){
@@ -133,7 +142,7 @@ function setupRenderEffect(instance:any,initialvnode,container){
     initialvnode.el = subTree.el
 }
 
-
-
-
-
+    return {
+        createApp:createAppAPI(render)
+    }
+}
