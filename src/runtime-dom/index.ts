@@ -1,13 +1,13 @@
 import { createRenderer } from "../runtime-core/renderer";
 
 function createElement(type){
-    console.log('createElement------------')
+    // console.log('createElement------------')
     return document.createElement(type)
 
 }
 
 function patchProp(el,key,val){
-    console.log('patchProp---------------')
+    // console.log('patchProp---------------')
     const isOn = key=> /^on[A-Z]/.test(key)
         console.log(key)
         // 如果我们的key是我们的onclick我们就可以给他添加一个点击事件
@@ -20,7 +20,7 @@ function patchProp(el,key,val){
 
 
 function insert(el,parent){
-    console.log('insert----------------------')
+    // console.log('insert----------------------')
     parent.append(el)
 }
 
