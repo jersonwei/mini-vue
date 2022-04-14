@@ -93,6 +93,12 @@ function patchProps(el,oldProps,newProps){
             hostPatchProp(el,key,prevProp,nextProp)
         }
     }
+
+    for (const key in oldProps) {
+        if(!(key in newProps)){
+            hostPatchProp(el,key,oldProps[key],null)
+        }
+    }
 }
 function mountElement(vnode:any,container:any,parentComponent){
     // canvas
