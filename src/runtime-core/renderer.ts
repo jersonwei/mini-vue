@@ -62,6 +62,7 @@ function processFragment(n1,n2,container,parentComponent){
 }
 // 作为元素的处理方式
 function processElement(n1,n2:any,container:any,parentComponent){
+    // console.log('processElement')
     if(!n1){
         // element 主要有初始化init和更新update
         mountElement(n2,container,parentComponent)

@@ -24,7 +24,7 @@ function patchProp(el,key,prevVal,nextVal){
 
 
 function insert(el,parent){
-    // console.log('insert----------------------')
+    // console.log('insert',el,parent)
     parent.append(el)
 }
 
@@ -34,8 +34,8 @@ const renderer:any = createRenderer({
     insert
 })
 
-export function createApp(...arg){
-    return renderer.createApp(...arg)
+export function createApp(...args){
+    return renderer.createApp(...args)
 }
 
 export * from '../runtime-core'
