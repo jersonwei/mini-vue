@@ -14,7 +14,11 @@ function patchProp(el,key,prevVal,nextVal){
         if(isOn(key)){
             el.addEventListener(key.slice(2).toLowerCase(),nextVal)
         }else{
-            el.setAttribute(key,nextVal)
+            if(nextVal === undefined || nextVal === null){
+                el.removeAttribute(key)
+            }else{
+                el.setAttribute(key,nextVal)
+            }
         }
 }
 
