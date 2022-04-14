@@ -7,9 +7,9 @@ import { Fragment,Text } from "./vnode"
 
 export function createRenderer(options){
 
-    const {createElement,
-    patchProp,
-insert} = options
+    const {createElement:hostCreateElement,
+    patchProp:hostPatchProp,
+insert:hostInsert} = options
     
     function render(vnode,container){
         // 构建patch方法 方便后续的递归
@@ -75,6 +75,24 @@ function patchElement(n1,n2:any,container){
     console.log('n1',n1)
     console.log('n2',n2)
     console.log('container',container)
+
+
+    const oldProps = n1.props || {}
+    const newProps = n2.props || {}
+
+    const el = (n2.el = n1.el)
+
+    patchProps(el,oldProps,newProps)
+}
+
+function patchProps(el,oldProps,newProps){
+    for (const key in newProps) {
+        const prevProp = oldProps[key]
+        const nextProp = newProps[key]
+        if(prevProp !== nextProp){
+            hostPatchProp(el,key,prevProp,nextProp)
+        }
+    }
 }
 function mountElement(vnode:any,container:any,parentComponent){
     // canvas
@@ -84,7 +102,7 @@ function mountElement(vnode:any,container:any,parentComponent){
     // 我们所谓的虚拟节点中的内容主要由 type props children 这里的type一般有string和array
     // 还是按照我们正常创建元素的方式来创建虚拟DOM
     // 这里的el是属于我们的element类型也就是div的,并不是我们认为的初始化的虚拟节点
-    const el = (vnode.el = createElement(vnode.type))
+    const el = (vnode.el = hostCreateElement(vnode.type))
     // string array
     const {children,shapeFlag} = vnode
     // 字符串类型的处理方式
@@ -114,13 +132,13 @@ function mountElement(vnode:any,container:any,parentComponent){
         // }else{
         //     el.setAttribute(key,val)
         // }
-        patchProp(el,key,val)
+        hostPatchProp(el,key,null,val)
     }
     // canvas
     // el.x = 10
     // addChild()
     // container.append(el)
-    insert(el,container)
+    hostInsert(el,container)
 }
 
 function mountChildren(vnode,container,parentComponent){
@@ -148,7 +166,7 @@ function setupRenderEffect(instance:any,initialvnode,container){
             console.log('init')
             const {proxy} = instance
             const subTree = instance.subTree =  instance.render.call(proxy);
-            console.log(subTree)
+            // console.log(subTree)
         // vndoeTree => patch
         // vnode => element =>mountElement
         patch(null,subTree,container,instance)

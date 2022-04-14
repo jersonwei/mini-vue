@@ -12,7 +12,7 @@ export const App = {
             bar:'bar'
         })
         const onChangePropsDemo1 = ()=>{
-            porps.value.foo = 'new-foo'
+            props.value.foo = 'new-foo'
         }
         const onChangePropsDemo2 = ()=>{
             props.value.foo = undefined
@@ -45,8 +45,8 @@ export const App = {
             },'click'
         ),
     h('button',{onClick:this.onChangePropsDemo1},'changeProps -值改变了-修改'),
-    h('button',{onClick:this.onChangePropsDemo2},'changeProps -值改变了-修改'),
-    h('button',{onClick:this.onChangePropsDemo3},'changeProps -值改变了-修改'),])
+    h('button',{onClick:this.onChangePropsDemo2},'changeProps -值变成了undefined-删除'),
+    h('button',{onClick:this.onChangePropsDemo3},'changeProps -值在新的里面没有了-删除'),])
     
     }
    
