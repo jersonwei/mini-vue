@@ -13,6 +13,7 @@ export const App = {
         }
     },
     render(){
+        console.log(this.count)
         // emit
         return h('div',{ 
             id:'root'

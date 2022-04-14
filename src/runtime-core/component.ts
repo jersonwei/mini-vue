@@ -3,6 +3,7 @@ import {initProps} from './componentProps'
 import { shallowReadonly } from "../reactivity/reactive"
 import { emit } from "./componentEmit"
 import { initSlots } from "./componentSlots"
+import { proxyRefs } from "../reactivity"
 let currentInstance = null
 export function creatComponentInstance(vnode,parent){
     console.log("kaobei",parent)
@@ -52,7 +53,7 @@ function handleSetupResult(instance,setupResult:any){
     // TODO function
 
     if(typeof setupResult === 'object'){
-        instance.setupState = setupResult
+        instance.setupState = proxyRefs(setupResult) 
     }
 
     finishComponentSetup(instance)
