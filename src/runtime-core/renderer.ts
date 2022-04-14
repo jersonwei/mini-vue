@@ -136,7 +136,7 @@ function setupRenderEffect(instance:any,initialvnode,container){
         if(!instance.isMounted){
             console.log('init')
             const {proxy} = instance
-            const subTree = instance.render.call(proxy);
+            const subTree = instance.subTree =  instance.render.call(proxy);
             console.log(subTree)
         // vndoeTree => patch
         // vnode => element =>mountElement
@@ -148,6 +148,13 @@ function setupRenderEffect(instance:any,initialvnode,container){
         instance.isMounted = true
     }else{
         console.log('update')
+        const {proxy} = instance
+            const subTree = instance.render.call(proxy);
+            const prevSubTree = instance.subTree
+
+            instance.subTree = subTree
+            console.log('current',subTree)
+            console.log('pre',prevSubTree)
     }
     })
 }
