@@ -133,16 +133,22 @@ function mountComponent(initialvnode:any,container,parentComponent){
 function setupRenderEffect(instance:any,initialvnode,container){
 
     effect(()=>{
-        const {proxy} = instance
-        const subTree = instance.render.call(proxy);
-        console.log(subTree)
+        if(!instance.isMounted){
+            console.log('init')
+            const {proxy} = instance
+            const subTree = instance.render.call(proxy);
+            console.log(subTree)
         // vndoeTree => patch
         // vnode => element =>mountElement
         patch(subTree,container,instance)
-    
+        
         // 我们这里的subTree就是我们的根节点,我们所要赋值的el可以在subTree上找到
         // 传入我们的虚拟节点
         initialvnode.el = subTree.el
+        instance.isMounted = true
+    }else{
+        console.log('update')
+    }
     })
 }
 
