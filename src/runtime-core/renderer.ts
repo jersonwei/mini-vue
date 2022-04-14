@@ -86,19 +86,24 @@ function patchElement(n1,n2:any,container){
 }
 
 function patchProps(el,oldProps,newProps){
-    for (const key in newProps) {
-        const prevProp = oldProps[key]
+    if(oldProps !== newProps){
+
+        for (const key in newProps) {
+            const prevProp = oldProps[key]
         const nextProp = newProps[key]
         if(prevProp !== nextProp){
             hostPatchProp(el,key,prevProp,nextProp)
         }
     }
+    if(Object.keys(oldProps).length > 0){
 
-    for (const key in oldProps) {
-        if(!(key in newProps)){
-            hostPatchProp(el,key,oldProps[key],null)
+        for (const key in oldProps) {
+            if(!(key in newProps)){
+                hostPatchProp(el,key,oldProps[key],null)
+            }
         }
-    }
+    }   
+}
 }
 function mountElement(vnode:any,container:any,parentComponent){
     // canvas
