@@ -62,8 +62,19 @@ function processFragment(n1,n2,container,parentComponent){
 }
 // 作为元素的处理方式
 function processElement(n1,n2:any,container:any,parentComponent){
-    // element 主要有初始化init和更新update
-    mountElement(n2,container,parentComponent)
+    if(!n1){
+        // element 主要有初始化init和更新update
+        mountElement(n2,container,parentComponent)
+    }else{
+        patchElement(n1,n2,container)
+    }
+}
+
+function patchElement(n1,n2,container){
+    console.log('patchElement')
+    console.log('n1',n1)
+    console.log('n2',n2)
+    console.log('container',container)
 }
 function mountElement(vnode:any,container:any,parentComponent){
     // canvas
@@ -153,8 +164,8 @@ function setupRenderEffect(instance:any,initialvnode,container){
             const prevSubTree = instance.subTree
 
             instance.subTree = subTree
-            console.log('current',subTree)
-            console.log('pre',prevSubTree)
+            // console.log('current',subTree)
+            // console.log('pre',prevSubTree)
         patch(prevSubTree,subTree,container,instance)
     }
     })
