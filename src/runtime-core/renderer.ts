@@ -70,7 +70,7 @@ function processElement(n1,n2:any,container:any,parentComponent){
     }
 }
 
-function patchElement(n1,n2,container){
+function patchElement(n1,n2:any,container){
     console.log('patchElement')
     console.log('n1',n1)
     console.log('n2',n2)
