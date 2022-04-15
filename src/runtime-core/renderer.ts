@@ -151,6 +151,12 @@ function patchKeyedChildren(c1,c2,container,parentComponent){
         e1--
         e2--
     }
+    // 新的比老的多 需要进行创建
+    if(i>e1){
+        if(i<=e2){
+            patch(null,c2[i],container,parentComponent)
+        }
+    }
 }
 
 function unmountChildren(children){
