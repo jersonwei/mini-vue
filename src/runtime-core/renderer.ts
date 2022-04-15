@@ -152,7 +152,7 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
         e1--
         e2--
     }
-    // 新的比老的多 需要进行创建  左侧
+    // 新的比老的多 需要进行创建 
     if(i>e1){
         if(i<=e2){
             const nextPos = i + 1
@@ -161,6 +161,14 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
             patch(null,c2[i],container,parentComponent,anchor)            
             i++
         }
+        }
+    }else{
+        // 老的比新的多
+        if(i>e2){
+            while(i<=e1){
+                hostRemove(c1[i].el)
+                i++
+            }
         }
     }
     // 新的比老的多 需要进行创建  右侧
