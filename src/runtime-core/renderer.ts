@@ -118,9 +118,10 @@ function patchChildren(n1,n2,container,parentComponent,anchor){
 }
 
 function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
+    const l2 = c2.length
     let i = 0
     let e1 = c1.length -1
-    let e2 = c2.length -1
+    let e2 = l2 -1
 
     function isSomeVNodeType(n1,n2){
         // type
@@ -155,8 +156,11 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
     if(i>e1){
         if(i<=e2){
             const nextPos = i + 1
-            const anchor = i + 1<c2.length?c2[nextPos].el:null 
-            patch(null,c2[i],container,parentComponent,anchor)
+            const anchor = i + 1<l2?c2[nextPos].el:null 
+            while (i<=e2) {
+            patch(null,c2[i],container,parentComponent,anchor)            
+            i++
+        }
         }
     }
     // 新的比老的多 需要进行创建  右侧

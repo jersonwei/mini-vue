@@ -42,7 +42,8 @@ const prevChildren = [h('p',{key:'A'},'A'),h('p',{key:'B'},'B')]
 const nextChildren = [
         h('p',{key:'A'},'A'),
         h('p',{key:'B'},'B'),
-        h('p',{key:'C'},'C')]
+        h('p',{key:'C'},'C'),
+        h('p',{key:'D'},'D')]
 
 // 右侧
 // (a,b)
