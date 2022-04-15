@@ -97,7 +97,6 @@ function patchChildren(n1,n2,container){
         if(prevShapeFlag & ShapeFlags.ARRAY_CHILDREN){
             // 1.把n1的元素(children)清空
             unmountChildren(n1.children) 
-
             // 2.设置text
             hostSetElementText(container,c2)
         }
