@@ -55,15 +55,26 @@ import {ref,h} from '../../lib/guide-mini-vue.esm.js'
 //         h('p',{key:'A'},'A'),
 //         h('p',{key:'B'},'B')]
 
-// 4 老的比新的长
+// 4 老的比新的长 右侧
 // 删除老的
-// 左侧
+// 右侧
 // (a,b) c d
 // (a,b)
+// const prevChildren = [h('p',{key:'A'},'A'),h('p',{key:'B'},'B'),h('p',{key:'C'},'C'),h('p',{key:'D'},'D')]
+// const nextChildren = [
+//         h('p',{key:'A'},'A'),
+//         h('p',{key:'B'},'B')]
+// 老的比新的长 左侧
+// 删除老的
+// a,b(c,d)
+// (c,d)
 const prevChildren = [h('p',{key:'A'},'A'),h('p',{key:'B'},'B'),h('p',{key:'C'},'C'),h('p',{key:'D'},'D')]
 const nextChildren = [
-        h('p',{key:'A'},'A'),
-        h('p',{key:'B'},'B')]
+        h('p',{key:'C'},'C'),
+        h('p',{key:'D'},'D')]
+
+
+
 export default {
     name:'ArrayToArray',
     setup() {
