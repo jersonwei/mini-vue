@@ -1,4 +1,6 @@
 import {ref,h} from '../../lib/guide-mini-vue.esm.js'
+// 新的是文本
+// 老的是数组
 const nextChildren = 'newChildren'
 const prevChildren = [h('div',{},'A'),h('div',{},'B')];
 
