@@ -9,7 +9,7 @@ const nextChildren = 'newChildren'
 export default {
     name:'TextToText',
     setup() {
-        const isChange = false
+        const isChange = ref(false)
         window.isChange = isChange
         return {
             isChange

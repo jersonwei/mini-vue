@@ -92,6 +92,7 @@ function patchElement(n1,n2:any,container){
 function patchChildren(n1,n2,container){
     const prevShapeFlag = n1.shapeFlag
     const {shapeFlag} = n2
+    const c1 = n1.children
     const c2 = n2.children
     if(shapeFlag & ShapeFlags.TEXT_CHILDREN){
         if(prevShapeFlag & ShapeFlags.ARRAY_CHILDREN){
@@ -99,8 +100,14 @@ function patchChildren(n1,n2,container){
             unmountChildren(n1.children) 
             // 2.设置text
             hostSetElementText(container,c2)
-        }
+        }else{
+            console.log(c1,c2)
+           if(c1 !== c2){
+               hostSetElementText(container,c2)
+           }
+       }
     }
+
 }
 
 function unmountChildren(children){
