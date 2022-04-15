@@ -28,11 +28,19 @@ function insert(el,parent){
     parent.append(el)
 }
 
+function remove(children){
+    const parent = children.parentNode
+    if(parent){
+        parent.removeChild(children)
+    }
+}
 const renderer:any = createRenderer({
     createElement,
     patchProp,
-    insert
+    insert,
+    remove
 })
+
 
 export function createApp(...args){
     return renderer.createApp(...args)
