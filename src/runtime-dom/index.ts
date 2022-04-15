@@ -34,11 +34,16 @@ function remove(children){
         parent.removeChild(children)
     }
 }
+function setElementText(el,text){
+    el.textContent = text
+}
+
 const renderer:any = createRenderer({
     createElement,
     patchProp,
     insert,
-    remove
+    remove,
+    setElementText
 })
 
 

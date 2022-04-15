@@ -10,7 +10,8 @@ export function createRenderer(options){
     const {createElement:hostCreateElement,
     patchProp:hostPatchProp,
 insert:hostInsert,
-remove:hostRemove} = options
+remove:hostRemove,
+setElementText:hostSetElementText} = options
     
     function render(vnode,container){
         // 构建patch方法 方便后续的递归
@@ -84,19 +85,21 @@ function patchElement(n1,n2:any,container){
 
     const el = (n2.el = n1.el)
 
-    patchChildren(n1,n2)
+    patchChildren(n1,n2,el)
     patchProps(el,oldProps,newProps)
 }
 
-function patchChildren(n1,n2){
+function patchChildren(n1,n2,container){
     const prevShapeFlag = n1.shapeFlag
-    const {shapeFlag} = n2.shapeFlag
-    
+    const {shapeFlag} = n2
+    const c2 = n2.children
     if(shapeFlag & ShapeFlags.TEXT_CHILDREN){
         if(prevShapeFlag & ShapeFlags.ARRAY_CHILDREN){
             // 1.把n1的元素(children)清空
             unmountChildren(n1.children) 
+
             // 2.设置text
+            hostSetElementText(container,c2)
         }
     }
 }
