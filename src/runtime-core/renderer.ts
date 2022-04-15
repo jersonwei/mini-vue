@@ -171,6 +171,9 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
             // 乱序的部分
             let s1 = i  // e1
             let s2 = i  // e2
+
+            const toBePatched = e2-s2 + 1 // e2中乱序的数量
+            let patched = 0  // 记录当前处理的数量
             const keyToNewIndexMap = new Map()
            for (let i = s2; i <= e2; i++) {
                const nextChild = c2[i]
@@ -178,6 +181,11 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
            }
            for (let i = s1; i <= e1; i++) {
                const prevChild = c1[i]
+
+               if(patched >= toBePatched){
+                   hostRemove(prevChild.el)
+                   continue
+               }
                // 有key直接找映射表
                let newIndex
                if(prevChild.key !== null){
@@ -198,6 +206,7 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                }else{
                 //    存在继续进行深度对比
                    patch(prevChild,c2,container,parentComponent,null)
+                   patched++
                }
                
            }
