@@ -42,9 +42,17 @@ const prevChildren = [h('p',{key:'A'},'A'),h('p',{key:'B'},'B')]
 const nextChildren = [
         h('p',{key:'A'},'A'),
         h('p',{key:'B'},'B'),
-        h('p',{key:'C'},'C')
-    ]
+        h('p',{key:'C'},'C')]
 
+// 右侧
+// (a,b)
+// c (a,b)
+// i=0 e1 = -1 e2 = 0
+// const prevChildren = [h('p',{key:'A'},'A'),h('p',{key:'B'},'B')]
+// const nextChildren = [
+//         h('p',{key:'C'},'C'),
+//         h('p',{key:'A'},'A'),
+//         h('p',{key:'B'},'B')]
 
 
 export default {
