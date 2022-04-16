@@ -342,7 +342,17 @@ function mountChildren(children,container,parentComponent,anchor){
     })
 }
 function processComponent(n1,n2:any,container:any,parentComponent,anchor){  
-    mountComponent(n2,container,parentComponent,anchor)
+    // 当n1没有值时才进行创建
+    if(!n1){
+        mountComponent(n2,container,parentComponent,anchor)
+    }else{
+        // 有值就进行更新逻辑
+        updateComponent(n1,n2)
+    }
+}
+
+function updateComponent(n1,n2){
+
 }
 
 function mountComponent(initialvnode:any,container,parentComponent,anchor){
@@ -356,7 +366,7 @@ function mountComponent(initialvnode:any,container,parentComponent,anchor){
 
 function setupRenderEffect(instance:any,initialvnode,container,anchor){
 
-    effect(()=>{
+  instance.update =  effect(()=>{
         if(!instance.isMounted){
             console.log('init')
             const {proxy} = instance

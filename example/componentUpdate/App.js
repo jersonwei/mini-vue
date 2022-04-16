@@ -30,7 +30,7 @@ export const App = {
         }),
     h('button',{
         onClick:this.changeCount
-    },'change self count').
-        h('p',{},'count'+this.count)])
+    },'change self count'),
+        h('p',{},'count: '+this.count)])
     }
 }
