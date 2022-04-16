@@ -352,7 +352,9 @@ function processComponent(n1,n2:any,container:any,parentComponent,anchor){
 }
 
 function updateComponent(n1,n2){
-
+    const instance = n2.component = n1.component
+    instance.next = n2
+    instance.update()
 }
 
 function mountComponent(initialvnode:any,container,parentComponent,anchor){
@@ -382,7 +384,8 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
         instance.isMounted = true
     }else{
         console.log('update')
-        const {proxy} = instance
+        // 需要一个更新之后的vnode
+            const {proxy} = instance
             const subTree = instance.render.call(proxy);
             const prevSubTree = instance.subTree
 
