@@ -201,7 +201,7 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                if(prevChild.key !== null){
                    newIndex = keyToNewIndexMap.get(prevChild.key)
                }else{  // 没有key继续遍历
-                   for (let j = s2; j < e2; j++) {
+                   for (let j = s2; j <= e2; j++) {
                        // 借助已经封装好的方法
                        if(isSomeVNodeType(prevChild,c2[j])){
                                 newIndex = j
