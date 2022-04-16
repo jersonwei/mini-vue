@@ -215,14 +215,29 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                     // 由于新节点可能在老节点中是不存在的 所以需要考虑到为0的情况 可以将我们的i加1处理
                    newIndexToOldIndexMap[newIndex-s2] = i + 1 
                 //    存在继续进行深度对比
-                   patch(prevChild,c2,container,parentComponent,null)
+                   patch(prevChild,c2[newIndex],container,parentComponent,null)
                    patched++
                }
                
            }
            // 给最长递增子序列算法准备进行处理的数组
-           const increasingNewIndexSequence = getSequence(newIndexToOldIndexMap)
-
+           const increasingNewIndexSequence:any = getSequence(newIndexToOldIndexMap)
+           let j = increasingNewIndexSequence.length-1
+           // 获取到我们的最长递增子序列这是一个数组,需要将我们的老值进行遍历 然后
+           // 利用两个指针分别指向我们的最长递增子序列和我们的老值 如果老值没有匹配 则说明需要进行位置移动
+           // toBePatched就是我们的新值的中间乱序的长度
+          for (let i = toBePatched -1; i >= 0; i--) {
+              const nextIndex = i +s2
+              const nextChild = c2[nextIndex]
+              const anchor = nextIndex + 1<l2?c2[nextIndex + 1].el :null
+            if(i !== increasingNewIndexSequence[j]){
+                console.log('需要进行位置移动')
+                hostInsert(nextChild.el,container,anchor)
+            }else{
+                // 不需要进行移动的话 将j的指针右移
+                j--
+            }
+          }
         }
     
 
@@ -362,7 +377,7 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
 
 function getSequence(arr){
     const p = arr.slice()
-    const result  = [0]
+    const result  = [0] // 存储长度为i的递增子序列的索引
     let i,j,u,v,c
     const len = arr.length
    for (let i = 0; i < len; i++) {
@@ -370,18 +385,38 @@ function getSequence(arr){
        if(arrI !== 0){
            // 把j赋值为数组最后一项 
            j = result[result.length-1]
+           // result存储的最后一个值小于当前值
            if(arr[j] < arrI){
+            //    存储在result更新前的最后一个索引的值
                 p[i] = j
-                result.push[i]
+                result.push(i)
                 continue
            }
            u = 0
            v = result.length -1
-           while (u-- > 0) {
-               result[u] = v
-               v = p[v]
+           // 二分搜索 查找比arrI小的节点  更新result的值
+           while (u<v) {
+               c =(u+v) >> 1
+               if(arr[result[c]] <arrI){
+                   u = c +1
+               }else{
+                   v = c 
+               }
            }
-           return result
-       }
-   }
+           if(arrI < arr[result[u]]){
+               if(u>0){
+                   p[i] = result[u-1]
+               }
+               result[u] = i
+           }
+        }
+    }
+    u = result.length
+    v = result[u-1]
+    // 回溯数组 找到最终的索引
+    while (u-- > 0) {
+        result[u] = v
+        v = p[v]
+    }
+    return result
 }
