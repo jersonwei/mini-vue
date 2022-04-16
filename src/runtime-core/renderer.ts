@@ -220,7 +220,8 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                }
                
            }
-
+           // 给最长递增子序列算法准备进行处理的数组
+           const increasingNewIndexSequence = getSequence(newIndexToOldIndexMap)
 
         }
     
@@ -354,4 +355,33 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
     return {
         createApp:createAppAPI(render)
     }
+}
+
+
+// 最长递增子序列算法
+
+function getSequence(arr){
+    const p = arr.slice()
+    const result  = [0]
+    let i,j,u,v,c
+    const len = arr.length
+   for (let i = 0; i < len; i++) {
+       const arrI = arr[i]
+       if(arrI !== 0){
+           // 把j赋值为数组最后一项 
+           j = result[result.length-1]
+           if(arr[j] < arrI){
+                p[i] = j
+                result.push[i]
+                continue
+           }
+           u = 0
+           v = result.length -1
+           while (u-- > 0) {
+               result[u] = v
+               v = p[v]
+           }
+           return result
+       }
+   }
 }
