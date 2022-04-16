@@ -357,7 +357,7 @@ function updateComponent(n1,n2){
 
 function mountComponent(initialvnode:any,container,parentComponent,anchor){
     // throw new Error('Function not implementd')
-   const instance =  creatComponentInstance(initialvnode,parentComponent)
+   const instance = initialvnode.component = creatComponentInstance(initialvnode,parentComponent)
 
    setupComponent(instance)
     setupRenderEffect(instance,initialvnode,container,anchor)
