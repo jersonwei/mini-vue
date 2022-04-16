@@ -168,13 +168,19 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                 i++
             }
         }else{
-            // 乱序的部分
+            // 中间乱序对比的部分
             let s1 = i  // e1
             let s2 = i  // e2
 
             const toBePatched = e2-s2 + 1 // e2中乱序的数量
             let patched = 0  // 记录当前处理的数量
             const keyToNewIndexMap = new Map()
+
+            const newIndexToOldIndexMap = new Array(toBePatched)
+            // 重置新节点数组的索引值
+           for (let i = 0; i < toBePatched; i++) {
+            newIndexToOldIndexMap[i] = 0
+           }
            for (let i = s2; i <= e2; i++) {
                const nextChild = c2[i]
                keyToNewIndexMap.set(nextChild.key,i)
@@ -204,6 +210,10 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
                if(newIndex === undefined){
                    hostRemove(prevChild.el)
                }else{
+                   // 证明新节点是存在的  在此处将老节点进行遍历对新节点进行重新赋值
+                   // 因为此处我们的索引计算包含了前面的部分所以需要减去前面的部分也就是s2
+                    // 由于新节点可能在老节点中是不存在的 所以需要考虑到为0的情况 可以将我们的i加1处理
+                   newIndexToOldIndexMap[newIndex-s2] = i + 1 
                 //    存在继续进行深度对比
                    patch(prevChild,c2,container,parentComponent,null)
                    patched++
