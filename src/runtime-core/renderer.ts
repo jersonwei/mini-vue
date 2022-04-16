@@ -242,8 +242,10 @@ function patchKeyedChildren(c1,c2,container,parentComponent,parentAnchor){
               const nextIndex = i +s2
               const nextChild = c2[nextIndex]
               const anchor = nextIndex + 1<l2?c2[nextIndex + 1].el :null
-              // 需要移动时才进入相关的逻辑判断
-              if(moved){
+              if(newIndexToOldIndexMap[i] === 0){
+                // 在旧值中找不到新值的映射时就需要新创建
+                patch(null,nextChild,container,parentComponent,anchor)
+              }else if(moved){ // 需要移动时才进入相关的逻辑判断
                   if( j<0 || i !== increasingNewIndexSequence[j]){
                       console.log('需要进行位置移动')
                       hostInsert(nextChild.el,container,anchor)
