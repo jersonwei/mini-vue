@@ -335,7 +335,6 @@ function mountElement(vnode:any,container:any,parentComponent,anchor){
     // container.append(el)
     hostInsert(el,container,anchor)
 }
-
 function mountChildren(children,container,parentComponent,anchor){
     children.forEach(v=>{
         patch(null,v,container,parentComponent,anchor)
