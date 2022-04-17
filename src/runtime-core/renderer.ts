@@ -5,7 +5,7 @@ import { creatComponentInstance, setupComponent } from "./component"
 import { createAppAPI } from "./createApp"
 import { Fragment,Text } from "./vnode"
 import {shouldUpdateComponent} from './componentUpdateUtils'
-
+import { queueJobs } from "./scheduler"
 export function createRenderer(options){
 
     const {createElement:hostCreateElement,
@@ -410,6 +410,7 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
     },{
         scheduler(){
             console.log('update -- scheduler')
+            queueJobs(instance.update)
         }
     })
 }
