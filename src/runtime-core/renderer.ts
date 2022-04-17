@@ -4,6 +4,7 @@ import { ShapeFlags } from "../shared/Shapeflags"
 import { creatComponentInstance, setupComponent } from "./component"
 import { createAppAPI } from "./createApp"
 import { Fragment,Text } from "./vnode"
+import {shouldUpdateComponent} from './componentUpdateUtils'
 
 export function createRenderer(options){
 
@@ -351,9 +352,14 @@ function processComponent(n1,n2:any,container:any,parentComponent,anchor){
 }
 
 function updateComponent(n1,n2){
-    const instance = n2.component = n1.component
-    instance.next = n2
-    instance.update()
+    //  判断组件实例是否应该更新
+    if(shouldUpdateComponent(n1,n2)){
+        const instance = n2.component = n1.component
+        instance.next = n2
+        instance.update()
+    }else{
+
+    }
 }
 
 function mountComponent(initialvnode:any,container,parentComponent,anchor){
