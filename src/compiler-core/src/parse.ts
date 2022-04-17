@@ -23,14 +23,14 @@ function parseInterpolation(context){
     const rawContentLength = closeIndex -2
 
     const content = context.source.slice(0,rawContentLength)
-
-    console.log('context.source ',context.source)
+    
+    context.source = context.source.slice(rawContentLength+2)
 
     return {
         type:'interpolation',
             content:{
                 type:'simple_expression',
-                content:'message'
+                content:content
             }
     }
 }
