@@ -1,4 +1,4 @@
-
+import { NodeTypes } from "./ast"
 
 export function baseParse(content:string){
     // 创建上下文对象
@@ -19,24 +19,26 @@ function parseInterpolation(context){
     const openDelimiter = '{{'
     const closeDelimiter = '}}'
     const closeIndex = context.source.indexOf(closeDelimiter,openDelimiter.length)
-
-    context.source = context.source.slice(openDelimiter.length)
+    advanceBy(context,openDelimiter.length)
 
     const rawContentLength = closeIndex -openDelimiter.length
 
     const content = context.source.slice(0,rawContentLength)
+    
+    advanceBy(context,rawContentLength + closeDelimiter.length)
+    // context.source = context.source.slice(rawContentLength + closeDelimiter.length)
 
-    context.source = context.source.slice(rawContentLength + closeDelimiter.length)
-
-    return {
-        type:'interpolation',
+    return {  
+        type:NodeTypes.INTERPOLATION, 
             content:{
-                type:'simple_expression',
+                type:NodeTypes.SIMPLE_EXPRESSION,
                 content:content
             }
     }
 }
-
+function advanceBy(context:any,length:number){
+    context.source = context.source.slice(length)
+}
 
 function createRoot(children){
     return {
