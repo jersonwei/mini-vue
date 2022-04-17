@@ -9,10 +9,12 @@ export const App = {
 
         const changeChildProps = ()=>{
             msg.value = '456'
+            console.log(msg.value)
         }
 
         const changeCount = ()=>{
             count.value++
+            console.log(count.value)
         }
         return {
             msg,changeChildProps,changeCount,count
@@ -20,17 +22,15 @@ export const App = {
     },
     render(){
         return h('div',{},
-        [h("div",{},"你好"),h('button',{
-            onclick:this.changeChildProps 
-            },'change child props'
-        ),h('Child',{
-            msg:this.msg
-        }),h(Child,{
-            msg:this.msg
-        }),
-    h('button',{
+        [h("div",{},"你好"),
+        h('button',{
+            onClick:this.changeChildProps 
+            },'change child props'),
+        h(Child,{
+            msg:this.msg}),
+        h('button',{
         onClick:this.changeCount
-    },'change self count'),
+        },'change self count'),
         h('p',{},'count: '+this.count)])
     }
 }

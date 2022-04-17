@@ -385,6 +385,12 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
     }else{
         console.log('update')
         // 需要一个更新之后的vnode
+            const {next,vnode} = instance
+            if(next){
+                next.el = vnode.el
+
+                updateComponentPreRender(instance,next)
+            }
             const {proxy} = instance
             const subTree = instance.render.call(proxy);
             const prevSubTree = instance.subTree
@@ -402,6 +408,12 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
     }
 }
 
+function updateComponentPreRender(instance,nextVnode){
+    instance.vnode = nextVnode
+    instance.next = null
+
+    instance.props = nextVnode.props
+}
 
 // 最长递增子序列算法
 
