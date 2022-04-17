@@ -407,6 +407,10 @@ function setupRenderEffect(instance:any,initialvnode,container,anchor){
             // console.log('pre',prevSubTree)
         patch(prevSubTree,subTree,container,instance,anchor)
     }
+    },{
+        scheduler(){
+            console.log('update -- scheduler')
+        }
     })
 }
 
