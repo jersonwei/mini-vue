@@ -352,13 +352,15 @@ function processComponent(n1,n2:any,container:any,parentComponent,anchor){
 }
 
 function updateComponent(n1,n2){
+    const instance = n2.component = n1.component
     //  判断组件实例是否应该更新
     if(shouldUpdateComponent(n1,n2)){
-        const instance = n2.component = n1.component
         instance.next = n2
         instance.update()
     }else{
-
+        // 不需要更新时也需要将组件的状态进行更新
+        n2.el = n1.el
+        instance.vnode = n2
     }
 }
 
