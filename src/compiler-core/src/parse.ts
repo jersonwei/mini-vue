@@ -29,9 +29,12 @@ function parseChildren(context){
 function parseElement(context:any){
     // 解析tag 
     // 删除处理完成的代码
+    const match:any = /^<([a-z]*)/i.exec(context.source)
+    console.log(match)
+    const tag = match[1]
     return {
         type:NodeTypes.ELEMENT,
-        tag:'div'
+        tag,
     }
 }
 
