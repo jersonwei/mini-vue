@@ -8,7 +8,11 @@ export function baseParse(content:string){
 
 function parseChildren(context){
     const nodes:any = []
-    const node = parseInterpolation(context)
+    let node
+    // 检测字符串是否以某某开头
+    if(context.source.startsWith('{{')){
+        node = parseInterpolation(context)
+    }
     nodes.push(node)
 
     return nodes
@@ -22,9 +26,9 @@ function parseInterpolation(context){
     advanceBy(context,openDelimiter.length)
 
     const rawContentLength = closeIndex -openDelimiter.length
-
-    const content = context.source.slice(0,rawContentLength)
-    
+    // 未处理的
+    const rawcontent = context.source.slice(0,rawContentLength)
+    const content = rawcontent.trim()
     advanceBy(context,rawContentLength + closeDelimiter.length)
     // context.source = context.source.slice(rawContentLength + closeDelimiter.length)
 
