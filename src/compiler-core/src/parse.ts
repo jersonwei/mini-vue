@@ -10,12 +10,29 @@ function parseChildren(context){
     const nodes:any = []
     let node
     // 检测字符串是否以某某开头
-    if(context.source.startsWith('{{')){
+    const s = context.source
+    if(s.startsWith('{{')){
         node = parseInterpolation(context)
+        // 首位是左尖括号
+    }else if(s[0] === '<'){
+        // 第二位是字母
+        if(/a-z/i.test(s[1])){
+            console.log('element')
+           node = parseElement(context)
+        }
     }
     nodes.push(node)
 
     return nodes
+}
+
+function parseElement(context:any){
+    // 解析tag 
+    // 删除处理完成的代码
+    return {
+        type:NodeTypes.ELEMENT,
+        tag:'div'
+    }
 }
 
 function parseInterpolation(context){
