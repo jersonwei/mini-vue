@@ -8,13 +8,24 @@ export function baseParse(content:string){
 
 function parseChildren(context){
     const nodes:any = []
-    const node = parseInterpolation()
+    const node = parseInterpolation(context)
     nodes.push(node)
 
     return nodes
 }
 
-function parseInterpolation(){
+function parseInterpolation(context){
+    // {{message}}
+    const closeIndex = context.source.indexOf('}}',2)
+
+    context.source = context.source.slice(2)
+
+    const rawContentLength = closeIndex -2
+
+    const content = context.source.slice(0,rawContentLength)
+
+    console.log('context.source ',context.source)
+
     return {
         type:'interpolation',
             content:{
