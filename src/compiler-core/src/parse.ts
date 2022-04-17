@@ -16,15 +16,17 @@ function parseChildren(context){
 
 function parseInterpolation(context){
     // {{message}}
-    const closeIndex = context.source.indexOf('}}',2)
+    const openDelimiter = '{{'
+    const closeDelimiter = '}}'
+    const closeIndex = context.source.indexOf(closeDelimiter,openDelimiter.length)
 
-    context.source = context.source.slice(2)
+    context.source = context.source.slice(openDelimiter.length)
 
-    const rawContentLength = closeIndex -2
+    const rawContentLength = closeIndex -openDelimiter.length
 
     const content = context.source.slice(0,rawContentLength)
-    
-    context.source = context.source.slice(rawContentLength+2)
+
+    context.source = context.source.slice(rawContentLength + closeDelimiter.length)
 
     return {
         type:'interpolation',
