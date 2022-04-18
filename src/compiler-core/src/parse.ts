@@ -40,9 +40,9 @@ function isEnd(context,ancestors){
     const s = context.source
     // 遇到结束标签
     if(s.startsWith('</')){
-       for (let i = 0; i < ancestors.length; i++) {
+       for (let i = ancestors.length - 1; i >= 0; i--) {
            const tag = ancestors[i].tag
-           if(s.slice(2,2+tag.length) === tag){
+           if(startsWithEndTagOpen(s,tag)){
                return true
            }
        }
@@ -107,7 +107,7 @@ function parseElement(context:any,ancestors){
 }
 
 function startsWithEndTagOpen(source,tag){
-    return source.slice(2,2+tag.length) === tag
+    return source.startsWith('</') && source.slice(2,2+tag.length).toLowerCase() === tag.toLowerCase()
 }
 
 function parseTag(context:any,type:TagType){
