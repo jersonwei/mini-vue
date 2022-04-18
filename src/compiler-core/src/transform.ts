@@ -1,3 +1,4 @@
+import { NodeTypes } from "./ast"
 
 export function transform(root,options={}){
     // 存储我们的初始值
@@ -6,6 +7,7 @@ export function transform(root,options={}){
     traverseNode(root,context)
 
     createRootCodegen(root)
+    root.helpers = [...context.helpers.keys()]
 }
 
 function createRootCodegen(root:any){
@@ -15,7 +17,11 @@ function createRootCodegen(root:any){
 function createTransformContext(root:any,options:any):any{
     const context = {
         root,
-        nodeTransforms:options.nodeTransforms || []
+        nodeTransforms:options.nodeTransforms || [],
+        helpers: new Map(),
+        helper(key){
+            context.helpers.set(key,1)
+        }
     }
 
     return context
@@ -32,6 +38,17 @@ function traverseNode(node:any,context){
         const transform = nodeTransforms[i]
         transform(node)
    }
+
+   switch (node.type) {
+       case NodeTypes.INTERPOLATION:
+           context.helper('toDisplayString')
+           break;
+   
+       default:
+           break;
+   }
+
+
    tranversChildren(node,context)
     // const children = node.children
 

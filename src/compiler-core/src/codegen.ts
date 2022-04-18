@@ -4,9 +4,9 @@ export function generate(ast){
     const {push} = context
     
     const VueBinging = "Vue"
-    const helpers = ["toDisplayString"]
+    // const helpers = ["toDisplayString"]
     const aliasHelper = (s)=>`${s}:_${s}`;
-    push(`const { ${helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
+    push(`const { ${ast.helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
     push('\n')
     push('return ')
     // let code = ''
