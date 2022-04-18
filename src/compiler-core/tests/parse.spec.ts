@@ -91,11 +91,9 @@ test('Nested element',()=>{
             {
             type:NodeTypes.ELEMENT,
             tag:'p',
-            children:[
-             {   type:NodeTypes.TEXT ,
+            children:[{type:NodeTypes.TEXT ,
                 content:'hi'
-            }
-            ]
+            }]
             },
             {
                 type:NodeTypes.INTERPOLATION,
@@ -105,7 +103,14 @@ test('Nested element',()=>{
                 }
             }
         ]
-
-        
     })
 })
+
+    // 缺少结束标签希望会报错
+    test('should throw error when lack end tag',()=>{
+        
+        expect(()=>{
+            baseParse('<div><span></div>')
+        }).toThrow(`缺少结束标签:span`)
+    })
+

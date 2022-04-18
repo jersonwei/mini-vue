@@ -7,12 +7,12 @@ const enum TagType{
 export function baseParse(content:string){
     // 创建上下文对象
     const context = createParseContext(content)
-    return createRoot(parseChildren(context,''))    
+    return createRoot(parseChildren(context,[]))    
 }
 
-function parseChildren(context,parentTag){
+function parseChildren(context,ancestors){
     const nodes:any = []
-    while (!isEnd(context,parentTag)) {
+    while (!isEnd(context,ancestors)) {
         
         let node
         // 检测字符串是否以某某开头
@@ -24,7 +24,7 @@ function parseChildren(context,parentTag){
         // 第二位是字母
         if(/[a-z]/i.test(s[1])){
             console.log('element')
-           node = parseElement(context)
+           node = parseElement(context,ancestors)
         }
     }
     // text的处理
@@ -36,12 +36,20 @@ function parseChildren(context,parentTag){
     return nodes
 }
 // 循环执行解析children的状态函数
-function isEnd(context,parentTag){
+function isEnd(context,ancestors){
     const s = context.source
     // 遇到结束标签
-    if(parentTag && s.startsWith(`</${parentTag}>`)){
-        return true
+    if(s.startsWith('</')){
+       for (let i = 0; i < ancestors.length; i++) {
+           const tag = ancestors[i].tag
+           if(s.slice(2,2+tag.length) === tag){
+               return true
+           }
+       }
     }
+    // if(ancestors && s.startsWith(`</${ancestors}>`)){
+        // return true
+    // }
     // 当source没有值
     return !s
 }
@@ -78,13 +86,21 @@ function parseTextData(context:any,length){
    return content
 }
 
-function parseElement(context:any){
+function parseElement(context:any,ancestors){
     // 解析tag 
     // 删除处理完成的代码
     const element:any = parseTag(context,TagType.Start)
+    ancestors.push(element)
     // 联合类型进行递归调用
-    element.children = parseChildren(context,element.tag)
-    parseTag(context,TagType.End)
+    element.children = parseChildren(context,ancestors)
+    ancestors.pop()
+    
+    // 处理没有结束标签的逻辑 判断前后标签内容是否一致
+    if(context.source.slice(2,2+element.tag.length) === element.tag){
+        parseTag(context,TagType.End)
+    }else{
+        throw new Error(`缺少结束标签:${element.tag}`)
+    }
     console.log('------------',context.source)
 
     return element
