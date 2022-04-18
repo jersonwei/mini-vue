@@ -1,5 +1,5 @@
 
-export function transform(root,options){
+export function transform(root,options={}){
     // 存储我们的初始值
     const context = createTransformContext(root,options)
     // 1 遍历 深度优先搜索

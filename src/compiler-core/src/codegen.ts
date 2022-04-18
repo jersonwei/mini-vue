@@ -7,7 +7,7 @@ export function generate(ast){
     const functionName = 'render'
     const args = ['_ctx','_cache']
     const signature = args.join(', ')
-    const node = ast.children[0]
+    const node = ast.codegenNode
     code += `function ${functionName}(${signature}){`
     code += `return '${node.content}'`
     code += '}'
