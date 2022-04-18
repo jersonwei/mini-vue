@@ -36,7 +36,7 @@ describe('element',()=>{
 
 describe('text',()=>{
 
-    describe('simple text',()=>{
+    it('simple text',()=>{
 
         const ast = baseParse("some text")
 

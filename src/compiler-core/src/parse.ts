@@ -25,9 +25,33 @@ function parseChildren(context){
            node = parseElement(context)
         }
     }
+    // text的处理
+    if(!node){
+        node = parseText(context)
+    }
     nodes.push(node)
-    
     return nodes
+}
+
+function parseText(context:any){
+    // 主要步骤  1 获取内容content
+    // const content = context.source.slice(0,context.source.length)
+    const content = parseTextData(context,context.source.length)
+    
+    // 2.推进编译进程
+    // advanceBy(content,content.length)
+    console.log(context.source)
+
+    return {
+        type:NodeTypes.TEXT ,
+        content:content
+    }
+}
+// 提取裁剪方法
+function parseTextData(context:any,length){
+   const content =  context.source.slice(0,length)
+   advanceBy(context,content.length)
+   return content
 }
 
 function parseElement(context:any){
@@ -64,9 +88,10 @@ function parseInterpolation(context){
 
     const rawContentLength = closeIndex -openDelimiter.length
     // 未处理的
-    const rawcontent = context.source.slice(0,rawContentLength)
-    const content = rawcontent.trim()
-    advanceBy(context,rawContentLength + closeDelimiter.length)
+    // const rawcontent = context.source.slice(0,rawContentLength)
+    const rawContent = parseTextData(context,rawContentLength)
+    const content = rawContent.trim()
+    advanceBy(context,closeDelimiter.length)
     // context.source = context.source.slice(rawContentLength + closeDelimiter.length)
 
     return {  
