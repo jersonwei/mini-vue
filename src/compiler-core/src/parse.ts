@@ -96,7 +96,7 @@ function parseElement(context:any,ancestors){
     ancestors.pop()
     
     // 处理没有结束标签的逻辑 判断前后标签内容是否一致
-    if(context.source.slice(2,2+element.tag.length) === element.tag){
+    if(startsWithEndTagOpen(context.source,element.tag)){
         parseTag(context,TagType.End)
     }else{
         throw new Error(`缺少结束标签:${element.tag}`)
@@ -104,6 +104,10 @@ function parseElement(context:any,ancestors){
     console.log('------------',context.source)
 
     return element
+}
+
+function startsWithEndTagOpen(source,tag){
+    return source.slice(2,2+tag.length) === tag
 }
 
 function parseTag(context:any,type:TagType){
