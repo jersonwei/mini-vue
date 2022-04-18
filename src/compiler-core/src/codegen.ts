@@ -3,12 +3,13 @@ export function generate(ast){
     const context = createCodegenContext()
     const {push} = context
     
-    const VueBinging = "Vue"
+    genFunctionPreamble(ast,context)
+    // const VueBinging = "Vue"
     // const helpers = ["toDisplayString"]
-    const aliasHelper = (s)=>`${s}:_${s}`;
-    push(`const { ${ast.helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
-    push('\n')
-    push('return ')
+    // const aliasHelper = (s)=>`${s}:_${s}`;
+    // push(`const { ${ast.helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
+    // push('\n')
+    // push('return ')
     // let code = ''
     // code += 'return '
 
@@ -27,6 +28,16 @@ export function generate(ast){
     // code += '}'
 
     return {code:context.code}
+}
+
+function genFunctionPreamble(ast,context){
+    const {push} = context
+    const VueBinging = "Vue"
+    // const helpers = ["toDisplayString"]
+    const aliasHelper = (s)=>`${s}:_${s}`;
+    push(`const { ${ast.helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
+    push('\n')
+    push('return ')
 }
 
 function createCodegenContext():any{
