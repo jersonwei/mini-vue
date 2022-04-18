@@ -7,12 +7,12 @@ const enum TagType{
 export function baseParse(content:string){
     // 创建上下文对象
     const context = createParseContext(content)
-    return createRoot(parseChildren(context))    
+    return createRoot(parseChildren(context,''))    
 }
 
-function parseChildren(context){
+function parseChildren(context,parentTag){
     const nodes:any = []
-    while (!isEnd(context)) {
+    while (!isEnd(context,parentTag)) {
         
         let node
         // 检测字符串是否以某某开头
@@ -36,13 +36,13 @@ function parseChildren(context){
     return nodes
 }
 // 循环执行解析children的状态函数
-function isEnd(context){
+function isEnd(context,parentTag){
     const s = context.source
-    // 当source没有值
-    if(s.startsWith('</div>')){
+    // 遇到结束标签
+    if(parentTag && s.startsWith(`</${parentTag}>`)){
         return true
     }
-    // 遇到结束标签
+    // 当source没有值
     return !s
 }
 
@@ -81,7 +81,7 @@ function parseElement(context:any){
     // 删除处理完成的代码
     const element:any = parseTag(context,TagType.Start)
     // 联合类型进行递归调用
-    element.children = parseChildren(context)
+    element.children = parseChildren(context,element.tag)
     parseTag(context,TagType.End)
     console.log('------------',context.source)
 
