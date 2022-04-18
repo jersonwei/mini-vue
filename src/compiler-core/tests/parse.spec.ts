@@ -16,23 +16,24 @@ describe('Parse',()=>{
         })
     })
 })
-// describe('element',()=>{
+describe('element',()=>{
 
-//     describe('simple element div',()=>{
+    describe('simple element div',()=>{
 
-//         const ast = baseParse("<div></div>")
+        const ast = baseParse("<div></div>")
 
-//         // root 
-//         expect(ast.children[0]).toStrictEqual({
-//         type:NodeTypes.ELEMENT,
-//         tag:'div'
-//         })
+        // root 
+        expect(ast.children[0]).toStrictEqual({
+        type:NodeTypes.ELEMENT,
+        tag:'div',
+        children:[]
+        })
 
         
 
-//     })
+    })
 
-// })
+})
 
 describe('text',()=>{
 
@@ -53,13 +54,13 @@ describe('text',()=>{
 })
 
 // 三种联合类型的单侧
-test.only('hello word',()=>{
+test('hello word',()=>{
 
-    const ast = baseParse('<p>hi,{{message}}</p>')
+    const ast = baseParse('<div>hi,{{message}}</div>')
 
     expect(ast.children[0]).toStrictEqual({
         type:NodeTypes.ELEMENT,
-        tag:'p',
+        tag:'div',
         children:[
             {
             type:NodeTypes.TEXT ,
@@ -77,4 +78,34 @@ test.only('hello word',()=>{
     })
 
 
+})
+
+// 嵌套元素的单侧
+test('Nested element',()=>{
+    const ast = baseParse('<div><p>hi</p>{{message}}</div>')
+
+    expect(ast.children[0]).toStrictEqual({
+        type:NodeTypes.ELEMENT,
+        tag:'div',
+        children:[
+            {
+            type:NodeTypes.ELEMENT,
+            tag:'p',
+            children:[
+             {   type:NodeTypes.TEXT ,
+                content:'hi'
+            }
+            ]
+            },
+            {
+                type:NodeTypes.INTERPOLATION,
+                content:{
+                    type:NodeTypes.SIMPLE_EXPRESSION,
+                    content:'message'
+                }
+            }
+        ]
+
+        
+    })
 })

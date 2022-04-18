@@ -49,11 +49,13 @@ function isEnd(context,parentTag){
 function parseText(context:any){
     // 对我们children中的text进行逻辑拓展
     let endIndex = context.source.length // 默认值
-    const endToken = '{{'
-    const index = context.source.indexOf(endToken)
-    // 存在花括弧 需要停止
-    if(index !== -1){
-        endIndex = index
+    const endToken = ['<','{{']
+   for (let i = 0; i < endToken.length; i++) {
+       const index = context.source.indexOf(endToken[i])
+       // 存在花括弧 需要停止
+       if(index !== -1 && endIndex > index){
+           endIndex = index
+        }
     }
 
     // 主要步骤  1 获取内容content
