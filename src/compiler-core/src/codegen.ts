@@ -3,8 +3,11 @@ export function generate(ast){
     const context = createCodegenContext()
     const {push} = context
     
-    const VueBingging = "Vue"
-    push(`const { toDisplayString: _toDisplayString } = ${VueBingging}`)
+    const VueBinging = "Vue"
+    const helpers = ["toDisplayString"]
+    const aliasHelper = (s)=>`${s}:_${s}`;
+    push(`const { ${helpers.map(aliasHelper).join(', ')} } = ${VueBinging}`)
+    push('\n')
     push('return ')
     // let code = ''
     // code += 'return '
@@ -12,7 +15,7 @@ export function generate(ast){
     const functionName = 'render'
     const args = ['_ctx','_cache']
     const signature = args.join(', ')
-    const node = ast.codegenNode
+    // const node = ast.codegenNode
 
     push(`function ${functionName}(${signature}){`)
     // code += `function ${functionName}(${signature}){`
