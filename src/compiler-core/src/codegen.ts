@@ -3,6 +3,8 @@ export function generate(ast){
     const context = createCodegenContext()
     const {push} = context
     
+    const VueBingging = "Vue"
+    push(`const { toDisplayString: _toDisplayString } = ${VueBingging}`)
     push('return ')
     // let code = ''
     // code += 'return '
