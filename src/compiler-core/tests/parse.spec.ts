@@ -51,3 +51,27 @@ describe('text',()=>{
     })
 
 })
+
+// 三种联合类型的单侧
+test('hello word',()=>{
+
+    const ast = baseParse('<div>hi,{{message}}</div>')
+
+    expect(ast.children[0]).toStrictEqual({
+        type:NodeTypes.ELEMENT,
+        tag:'div',
+        children:[
+            {
+            type:NodeTypes.TEXT ,
+            content:'hi,'},
+            {
+            type:NodeTypes.SIMPLE_EXPRESSION,
+            content:'message'
+            }
+        ]
+
+        
+    })
+
+
+})
