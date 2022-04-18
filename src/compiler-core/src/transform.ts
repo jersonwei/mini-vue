@@ -1,4 +1,3 @@
-import { NodeTypes } from "./ast"
 
 export function transform(root,options){
     // 存储我们的初始值
@@ -29,12 +28,24 @@ function traverseNode(node:any,context){
         const transform = nodeTransforms[i]
         transform(node)
    }
+   tranversChildren(node,context)
+    // const children = node.children
+
+    // if(children){
+    //    for (let i = 0; i < children.length; i++) {
+    //         const node = children[i]
+    //         traverseNode(node,context)
+    //    }
+    // }
+}
+
+function tranversChildren(node,context){
     const children = node.children
 
     if(children){
-       for (let i = 0; i < children.length; i++) {
-            const node = children[i]
-            traverseNode(node,context)
-       }
-    }
+        for (let i = 0; i < children.length; i++) {
+             const node = children[i]
+             traverseNode(node,context)
+        }
+     }
 }
