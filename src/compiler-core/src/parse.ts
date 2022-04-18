@@ -12,8 +12,10 @@ export function baseParse(content:string){
 
 function parseChildren(context){
     const nodes:any = []
-    let node
-    // 检测字符串是否以某某开头
+    while (!isEnd(context)) {
+        
+        let node
+        // 检测字符串是否以某某开头
     const s = context.source
     if(s.startsWith('{{')){
         node = parseInterpolation(context)
@@ -30,20 +32,40 @@ function parseChildren(context){
         node = parseText(context)
     }
     nodes.push(node)
+}
     return nodes
+}
+// 循环执行解析children的状态函数
+function isEnd(context){
+    const s = context.source
+    // 当source没有值
+    if(s.startsWith('</div>')){
+        return true
+    }
+    // 遇到结束标签
+    return !s
 }
 
 function parseText(context:any){
+    // 对我们children中的text进行逻辑拓展
+    let endIndex = context.source.length // 默认值
+    const endToken = '{{'
+    const index = context.source.indexOf(endToken)
+    // 存在花括弧 需要停止
+    if(index !== -1){
+        endIndex = index
+    }
+
     // 主要步骤  1 获取内容content
     // const content = context.source.slice(0,context.source.length)
-    const content = parseTextData(context,context.source.length)
+    const content = parseTextData(context,endIndex)
     
     // 2.推进编译进程
     // advanceBy(content,content.length)
     console.log(context.source)
 
     return {
-        type:NodeTypes.TEXT ,
+        type:NodeTypes.TEXT,
         content:content
     }
 }
@@ -57,7 +79,9 @@ function parseTextData(context:any,length){
 function parseElement(context:any){
     // 解析tag 
     // 删除处理完成的代码
-    const element = parseTag(context,TagType.Start)
+    const element:any = parseTag(context,TagType.Start)
+    // 联合类型进行递归调用
+    element.children = parseChildren(context)
     parseTag(context,TagType.End)
     console.log('------------',context.source)
 
