@@ -1,4 +1,4 @@
-# mini-vue
+# mini-vue        内容参考仓库 https://github.com/cuixiaorui/mini-vue
 ## 基于TDD单侧驱动逻辑 大体实现了以下流程
 ## reactivity模块
    * effect&reactive&依赖收集&触发依赖
@@ -39,4 +39,4 @@
 
 vue3 core-code重点
 总结笔记 https://juejin.cn/column/7089050969648365581 <br />
-内容参考仓库 https://github.com/cuixiaorui/mini-vue
+
